@@ -12,7 +12,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -25,7 +27,13 @@ import androidx.compose.ui.res.vectorResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+
+
+
 import com.example.bottombardemo.screens.Academics
 
 import com.example.bottombardemo.screens.Contacts
@@ -57,7 +65,7 @@ class MainActivity : ComponentActivity() {
                                 LocalContext.current.applicationContext
                                         as Application)
                         )
-                        MainScreen()
+                        MainScreen(viewModel)
                     }
 
 
@@ -77,21 +85,21 @@ class MainViewModelFactory(val application: Application) :
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(viewModel: MainViewModel) {
     val navController = rememberNavController()
 
     Scaffold(
         topBar = { TopAppBar(title = {Text("Bottom Navigation123")})  },
         content = { padding ->
             Column(Modifier.padding(padding)) {
-                NavigationHost(navController = navController)
+                NavigationHost(navController = navController, viewModel = viewModel)
             } },
         bottomBar = { BottomNavigationBar(navController = navController)}
     )
 }
 
 @Composable
-fun NavigationHost(navController: NavHostController) {
+fun NavigationHost(navController: NavHostController, viewModel: MainViewModel) {
 
     NavHost(
         navController = navController,
@@ -101,7 +109,12 @@ fun NavigationHost(navController: NavHostController) {
             Sports()
         }
         composable(NavRoutes.Academics.route) {
-            Academics()
+            val allCourses by viewModel.allCourses.observeAsState(listOf())
+            val searchResults by viewModel.searchResults.observeAsState(listOf())
+            Academics(
+                allCourses = allCourses,
+                searchResults = searchResults,
+                viewModel = viewModel)
         }
         composable(NavRoutes.Home.route) {
             Home()
@@ -150,10 +163,3 @@ fun BottomNavigationBar(navController: NavHostController) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    BottomBarDemoTheme {
-        MainScreen()
-    }
-}

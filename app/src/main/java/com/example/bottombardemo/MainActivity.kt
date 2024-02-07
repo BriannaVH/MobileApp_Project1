@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
@@ -78,7 +79,7 @@ fun MainScreen(viewModel: MainViewModel) {
     val navController = rememberNavController()
 
     Scaffold(
-        topBar = { TopAppBar(title = {Text("Bottom Navigation123")})  },
+        topBar = { TopAppBar(title = {Text("UVM Student Portal", textAlign = TextAlign.Center)})  },
         content = { padding ->
             Column(Modifier.padding(padding)) {
                 NavigationHost(navController = navController, viewModel = viewModel)

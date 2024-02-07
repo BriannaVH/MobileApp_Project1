@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.bottombardemo.Course
 import com.example.bottombardemo.MainViewModel
+import java.math.RoundingMode
 import kotlin.random.Random
 
 
@@ -46,9 +47,11 @@ fun Academics(
     var letterGrade by remember {
         mutableStateOf("")
     }
+    val gradePoints = mapOf("A+" to 4.00, "A" to 4.00, "A-" to 3.67, "B+" to 3.33 , "B" to 3.00, "B-" to 2.67, "C+" to 2.33, "C" to 2.00, "C-" to 1.67, "D+" to 1.33, "D" to 1.00, "D-" to .67, "F" to 0)
+
 
     var calculatedGPA by remember {
-        mutableStateOf(-1.0)
+        mutableStateOf(0.0)
     }
 
     var searching by remember { mutableStateOf(false) }
@@ -100,7 +103,9 @@ fun Academics(
                 .padding(10.dp)
         ) {
             Button(onClick = {
-                if (courseCreditHour.isNotEmpty()) {
+                if (courseCreditHour.isNotEmpty()
+                    && courseCreditHour.toDoubleOrNull()!==null
+                    && gradePoints.containsKey(letterGrade)) {
                     viewModel.insertCourse(
                         Course(
                             courseName,
@@ -142,21 +147,30 @@ fun Academics(
 
             Button(onClick = {
 
-                val gpa = calculateGPA2()
-                // Display the calculated GPA - Implement the display logic as needed
-//                    Toast.makeText(this, "GPA: $gpa", Toast.LENGTH_LONG).show()
-                println("GPA is: $gpa")
-                calculatedGPA = (-4.0) * Random.nextFloat()
+                var sum : Double = 0.0
+                var totalCredits = 0
+                for (i in allCourses){
+                    val points_str = gradePoints[i.letterGrade].toString()
+                    val points : Double = points_str.toDouble()
+                        sum += i.creditHour * points
+                    totalCredits += i.creditHour
+                }
+                calculatedGPA = sum / totalCredits
+                calculatedGPA = calculatedGPA.toBigDecimal().setScale(2, RoundingMode.HALF_EVEN).toDouble()
+
             }) {
                 Text("GPA")
             }
         }
 
         Row () {
-            Surface(color = Color.Green) {
+            Surface(
+            ){
                 Spacer(modifier = Modifier.weight(1f))
                 Text("GPA: " + calculatedGPA.toString(), textAlign = TextAlign.Left)
-        }
+            }
+
+
 
         }
         LazyColumn(

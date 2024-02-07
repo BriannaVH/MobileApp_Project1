@@ -1,6 +1,9 @@
 package com.example.bottombardemo.screens
 
+import android.graphics.Paint.Align
+import android.text.Layout
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -222,14 +225,22 @@ fun TitleRow(head1: String, head2: String, head3: String, head4: String) {
     ) {
         Text(head1, color = Color.White,
             modifier = Modifier
-                .weight(0.1f))
+                .weight(0.1f),
+            textAlign = TextAlign.Center
+        )
         Text(head2, color = Color.White,
             modifier = Modifier
-                .weight(0.2f))
+                .weight(0.2f),
+            textAlign = TextAlign.Center
+        )
         Text(head3, color = Color.White,
-            modifier = Modifier.weight(0.2f))
+            modifier = Modifier.weight(0.2f),
+            textAlign = TextAlign.Center
+        )
         Text(head4, color = Color.White,
-            modifier = Modifier.weight(0.2f))
+            modifier = Modifier.weight(0.2f),
+            textAlign = TextAlign.Center
+        )
     }
 }
 
@@ -241,10 +252,14 @@ fun CourseRow(id: Int, name: String, creditHour: Int, letterGrade: String) {
             .padding(5.dp)
     ) {
         Text(id.toString(), modifier = Modifier
-            .weight(0.1f))
-        Text(name, modifier = Modifier.weight(0.2f))
-        Text(creditHour.toString(), modifier = Modifier.weight(0.2f))
-        Text(letterGrade, modifier = Modifier.weight(0.2f))
+            .weight(0.1f),
+            textAlign = TextAlign.Center)
+        Text(name, modifier = Modifier.weight(0.2f),
+            textAlign = TextAlign.Center)
+        Text(creditHour.toString(), modifier = Modifier.weight(0.2f),
+            textAlign = TextAlign.Center)
+        Text(letterGrade, modifier = Modifier.weight(0.2f),
+            textAlign = TextAlign.Center)
     }
 }
 

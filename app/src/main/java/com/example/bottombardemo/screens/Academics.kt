@@ -166,54 +166,50 @@ fun Academics(
             }
         }
 
-        Row () {
+        Column(
+            horizontalAlignment = Alignment.Start,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp)
+        ){
             Surface(
             ){
                 Spacer(modifier = Modifier.weight(1f))
                 Text("GPA: " + calculatedGPA.toString(), textAlign = TextAlign.Left)
             }
 
-
-
         }
-        LazyColumn(
-            Modifier
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
                 .fillMaxWidth()
-                .padding(10.dp)
-        ) {
-            val list = if (searching) searchResults else allCourses
+        ){
+            LazyColumn(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+            ) {
+                val list = if (searching) searchResults else allCourses
 
-            item {
-                TitleRow(head1 = "ID", head2 = "Course", head3 = "Credit Hours", head4 = "Grades")
-            }
+                item {
+                    TitleRow(head1 = "ID", head2 = "Course", head3 = "Credit Hours", head4 = "Grades")
+                }
 
-            items(list) { course ->
-                CourseRow(id = course.id, name = course.courseName,
-                    creditHour = course.creditHour,
-                    letterGrade = course.letterGrade)
+                items(list) { course ->
+                    CourseRow(id = course.id, name = course.courseName,
+                        creditHour = course.creditHour,
+                        letterGrade = course.letterGrade)
+                }
             }
         }
+
+
     }
+
 }
 
 
-
-
-// GPA calculation functionality
-private fun calculateGPA2(): Double {
-    // Dummy data for illustration. Replace with actual data retrieval and calculation logic
-    val courses = listOf(
-        Triple("Course1", 3, "A"), // CourseName, CreditHour, LetterGrade
-        Triple("Course2", 4, "B"),
-        Triple("Course3", 2, "A")
-    )
-
-    val gradePoints = mapOf("A" to 4.0, "B" to 3.0, "C" to 2.0, "D" to 1.0, "F" to 0.0)
-    val totalCreditHours = courses.sumOf { it.second }
-    val totalPoints = courses.sumOf { it.second * (gradePoints[it.third] ?: 0.0) }
-
-    return if (totalCreditHours > 0) totalPoints / totalCreditHours else 0.0
-}
 
 @Composable
 fun TitleRow(head1: String, head2: String, head3: String, head4: String) {
@@ -284,28 +280,4 @@ fun CustomTextField(
             fontSize = 30.sp)
     )
 }
-
-@Composable
-fun GPACalculator() {
-    // State to hold the GPA value
-    var gpa by remember { mutableStateOf(0.0f) }
-
-    // Function to generate a random GPA
-    fun generateRandomGpa(): Float {
-        return Random.nextFloat() * 4.0f
-    }
-
-    Column {
-        // Button to calculate GPA
-        Button(onClick = { gpa = generateRandomGpa() }) {
-            Text("Calculate GPA")
-        }
-
-        // Display the generated GPA
-        if (gpa >= 0.0) {
-            Text("Your GPA is: ${"%.2f".format(gpa)}")
-        }
-    }
-}
-
 

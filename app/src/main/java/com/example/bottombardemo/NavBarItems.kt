@@ -9,24 +9,24 @@ object NavBarItems {
             route = "academics"
         ),
         BarItem(
-            title = "Sports 1",
+            title = "Sports",
             image = R.drawable.football,
             route = "sports"
         ),
         BarItem(
             title = "Safety",
-            image = R.drawable.book,
+            image = R.drawable.face,
             route = "home"
         ),
         BarItem(
-            title = "Sports",
-            image = R.drawable.book,
+            title = "Contact",
+            image = R.drawable.phone,
             route = "contacts"
         ),
         BarItem(
 //            title = "Favorites",
-            title = "Careers",
-            image = R.drawable.book,
+            title = "Favorites",
+            image = R.drawable.heart_solid,
             route = "favorites"
         )
     )

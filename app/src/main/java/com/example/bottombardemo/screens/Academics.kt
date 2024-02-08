@@ -226,20 +226,20 @@ fun TitleRow(head1: String, head2: String, head3: String, head4: String) {
         Text(head1, color = Color.White,
             modifier = Modifier
                 .weight(0.1f),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Left
         )
         Text(head2, color = Color.White,
             modifier = Modifier
                 .weight(0.2f),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Left
         )
         Text(head3, color = Color.White,
             modifier = Modifier.weight(0.2f),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Left
         )
         Text(head4, color = Color.White,
             modifier = Modifier.weight(0.2f),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Left
         )
     }
 }
@@ -253,13 +253,13 @@ fun CourseRow(id: Int, name: String, creditHour: Int, letterGrade: String) {
     ) {
         Text(id.toString(), modifier = Modifier
             .weight(0.1f),
-            textAlign = TextAlign.Center)
+            textAlign = TextAlign.Left)
         Text(name, modifier = Modifier.weight(0.2f),
-            textAlign = TextAlign.Center)
+            textAlign = TextAlign.Left)
         Text(creditHour.toString(), modifier = Modifier.weight(0.2f),
-            textAlign = TextAlign.Center)
+            textAlign = TextAlign.Left)
         Text(letterGrade, modifier = Modifier.weight(0.2f),
-            textAlign = TextAlign.Center)
+            textAlign = TextAlign.Left)
     }
 }
 

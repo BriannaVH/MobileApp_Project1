@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -30,6 +31,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
+private var showQuestions = mutableStateOf(false)
+private var numberOfQuestions = mutableStateOf(10) //default of 10 questions
+
 @Composable
 @Preview
 fun Trivial() {
@@ -44,18 +48,33 @@ fun Trivial() {
         )
 
         numberInputField()
+
+
+
         Button(
             onClick = {
-                /*TODO*/
+                showQuestions.value = true
             }, modifier = Modifier.align(CenterHorizontally)
-
         ) {
             Text(text = "Start")
         }
-        
-        Question(QuestionStr = "Example question 1")
 
-
+        if(showQuestions.value){
+            addQuestionsList(numberOfQuestions.value)
+        }
+//        Question(QuestionStr = "Example question 1")
+    }
+}
+@Composable
+fun addQuestionsList(num : Int){
+    LazyColumn(
+        Modifier.padding(24.dp)
+    ){
+        items(num) {
+            index ->
+                var x = index + 1
+                Question("Example question $x")
+        }
     }
 }
 
@@ -67,12 +86,19 @@ fun Trivial() {
  */
 @Composable
 fun numberInputField() {
-    var input by remember { mutableStateOf("") }
+    var input by remember { mutableStateOf("") } //The number of questions
     var regex = remember { Regex("^[1-9]\$|^10\$") }
 
     val onChange = { text: String ->
         if (text.isEmpty() || text.matches(regex)) {
             input = text
+            try {
+                var temp = input.toInt()
+
+                numberOfQuestions.value = temp
+            }catch (exception: Exception){
+                exception.printStackTrace()
+            }
         }
     }
 

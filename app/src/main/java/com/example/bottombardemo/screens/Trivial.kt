@@ -21,7 +21,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -31,7 +30,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-private var showQuestions = mutableStateOf(false)
+/**
+ * Making private variables
+ * https://stackoverflow.com/questions/65641635/jetpack-compose-how-can-we-call-a-composable-function-inside-an-onclick
+ */
+private var updateQuestionsList = mutableStateOf(false)
 private var numberOfQuestions = mutableStateOf(10) //default of 10 questions
 
 @Composable
@@ -53,13 +56,13 @@ fun Trivial() {
 
         Button(
             onClick = {
-                showQuestions.value = true
+                updateQuestionsList.value = true
             }, modifier = Modifier.align(CenterHorizontally)
         ) {
             Text(text = "Start")
         }
 
-        if(showQuestions.value){
+        if(updateQuestionsList.value){
             addQuestionsList(numberOfQuestions.value)
         }
 //        Question(QuestionStr = "Example question 1")
@@ -81,7 +84,10 @@ fun addQuestionsList(num : Int){
 /**
  * Determines the number of questions that will be displayed
  *
+ * Info on EditText fields:
  * https://www.geeksforgeeks.org/edittext-in-android-using-jetpack-compose/
+ *
+ * Input validation:
  * https://stackoverflow.com/questions/13508346/regular-expression-for-integer-greater-than-0-and-less-than-11
  */
 @Composable
@@ -96,6 +102,7 @@ fun numberInputField() {
                 var temp = input.toInt()
 
                 numberOfQuestions.value = temp
+                updateQuestionsList.value = false
             }catch (exception: Exception){
                 exception.printStackTrace()
             }

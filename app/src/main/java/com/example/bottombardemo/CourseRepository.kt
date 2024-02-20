@@ -2,9 +2,11 @@ package com.example.bottombardemo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.bottombardemo.Course
-import com.example.bottombardemo.CourseDao
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class CourseRepository(private val courseDao: CourseDao) {
 

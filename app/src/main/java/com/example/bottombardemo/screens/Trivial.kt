@@ -47,6 +47,14 @@ fun Trivial() {
         )
 
         numberInputField()
+        Button(
+            onClick = {
+                /*TODO*/
+            }, modifier = Modifier.align(CenterHorizontally)
+
+            ){
+                Text(text = "Start")
+            }
     }
 }
 

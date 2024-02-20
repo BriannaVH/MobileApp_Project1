@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -58,27 +59,27 @@ fun Trivial() {
 @Composable
 fun numberInputField(){
     var input by remember { mutableStateOf("")}
-
     var regex = remember {Regex("^[1-9]\$|^10\$")}
 
-    Column (
+    val onChange = { text : String ->
+        if(text.isEmpty() || text.matches(regex)){
+            input = text
+        }
+    }
+
+    Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxWidth()
     ){
-        TextField(
-            value = input,
-            onValueChange = {
-                if(it.isEmpty() || it.matches(regex)){
-                    input = it
-                }
-            },
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number,
-                capitalization = KeyboardCapitalization.None
-            )
+        CustomTextField(
+            title = "Number of Questions",
+            textState = input,
+            onTextChange = onChange,
+            keyboardType = KeyboardType.Text
         )
     }
+
 }
 
 /**

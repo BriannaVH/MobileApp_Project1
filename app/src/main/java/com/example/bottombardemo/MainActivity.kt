@@ -30,7 +30,7 @@ import com.example.bottombardemo.screens.Academics
 import com.example.bottombardemo.screens.Contacts
 import com.example.bottombardemo.screens.Favorites
 import com.example.bottombardemo.screens.Home
-import com.example.bottombardemo.screens.Sports
+import com.example.bottombardemo.screens.Trivial
 import com.example.bottombardemo.ui.theme.BottomBarDemoTheme
 
 class MainActivity : ComponentActivity() {
@@ -95,8 +95,8 @@ fun NavigationHost(navController: NavHostController, viewModel: MainViewModel) {
         navController = navController,
         startDestination = NavRoutes.Academics.route,
     ) {
-        composable(NavRoutes.Sports.route) {
-            Sports()
+        composable(NavRoutes.Trivial.route) {
+            Trivial()
         }
         composable(NavRoutes.Academics.route) {
             val allCourses by viewModel.allCourses.observeAsState(listOf())

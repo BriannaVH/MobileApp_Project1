@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun Sports() {
+fun Trivial() {
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -25,7 +25,7 @@ fun Sports() {
 //                .align(Alignment.Center)
         )
 
-        Text("Calculate Sports")
+        Text("Calculate Trivial")
         Button(onClick = { /*TODO*/ }) {
             Text("Sports")
         }

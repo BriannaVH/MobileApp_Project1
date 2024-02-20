@@ -9,9 +9,9 @@ object NavBarItems {
             route = "academics"
         ),
         BarItem(
-            title = "Sports",
-            image = R.drawable.football,
-            route = "sports"
+            title = "Trivial",
+            image = R.drawable.questionmark,
+            route = "trivial"
         ),
         BarItem(
             title = "Safety",

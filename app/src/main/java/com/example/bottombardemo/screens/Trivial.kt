@@ -18,6 +18,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -29,6 +30,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.bottombardemo.MainViewModel
+import com.example.bottombardemo.TrivialQuestion
 
 /**
  * Making private variables
@@ -38,8 +41,12 @@ private var updateQuestionsList = mutableStateOf(false)
 private var numberOfQuestions = mutableStateOf(10) //default of 10 questions
 
 @Composable
-@Preview
-fun Trivial() {
+fun Trivial(viewModel: MainViewModel) {
+    val allQuestions by viewModel.allQuestions.observeAsState(listOf())
+    println("checking info here")
+    for (fruit in allQuestions){
+        println("${fruit.question}")
+    }
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -181,3 +188,41 @@ fun Question(QuestionStr : String) {
         }
     }
 }
+
+
+@Composable
+fun loadQuestions(){
+
+}
+
+@Composable
+fun initQuestions(viewModel: MainViewModel){
+    val question1 = TrivialQuestion("When was UVM founded?", "1791", "1950", "1841", "1799")
+    val question2 = TrivialQuestion("What are the UVM colors?", "Green and gold", "Red and blue", "Blue and white", "Black and green")
+    val question3 = TrivialQuestion("What is the UVM mascot?", "Catamount", "Lion", "Panther", "Dog")
+    val question4 = TrivialQuestion("Where is UVM located?", "Burlington Vermont", "LA, California", "Phoenix Arizona", "St Johnsbury, Vermont")
+    val question5 = TrivialQuestion("What Lake is UVM located near?", "Lake Champlain", "Lake Willoughby", "Lake Bomoseen", "Lake Saint Catherine")
+    val question6 = TrivialQuestion("What is the name of the main library?", "Howe", "Uris library", "Bobst library", "Mcquade library")
+    val question7 = TrivialQuestion("What is the school motto?", "\"Studiis et Rebus Honestis\" — \"For studies and other honest pursuits\"", "“Mens agitat molem.\tMind moves matter.”", "“Lux sit. Let there be light.”", "“Crescat scientia; vita excolatur.Let knowledge increase; let life be enriched.”")
+    val question8 = TrivialQuestion("What years are required to live on campus?", "First years", "Second years", "Third years", "A and B")
+    val question9 = TrivialQuestion("How many campuses is UVM composed of?", "4", "5", "3", "2")
+    val question10 = TrivialQuestion("How many residential complexes are there?", "9", "15", "5", "7")
+
+    viewModel.clearQuestionsTable()
+
+    viewModel.insertQuestion(question1)
+    viewModel.insertQuestion(question2)
+    viewModel.insertQuestion(question3)
+    viewModel.insertQuestion(question4)
+    viewModel.insertQuestion(question5)
+    viewModel.insertQuestion(question6)
+    viewModel.insertQuestion(question7)
+    viewModel.insertQuestion(question8)
+    viewModel.insertQuestion(question9)
+    viewModel.insertQuestion(question10)
+//    println("just inserted")
+
+//    println("just got back info")
+}
+
+

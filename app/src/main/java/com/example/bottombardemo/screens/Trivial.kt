@@ -28,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.bottombardemo.MainViewModel
 import com.example.bottombardemo.TrivialQuestion
@@ -42,12 +41,6 @@ private var numberOfQuestions = mutableStateOf(10) //default of 10 questions
 
 @Composable
 fun Trivial(viewModel: MainViewModel) {
-    val allQuestions by viewModel.allQuestions.observeAsState(listOf())
-    println("checking info here")
-    for (fruit in allQuestions){
-        println("${fruit.question}")
-    }
-
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -70,21 +63,26 @@ fun Trivial(viewModel: MainViewModel) {
         }
 
         if(updateQuestionsList.value){
-            addQuestionsList(numberOfQuestions.value)
+            addQuestionsList(numberOfQuestions.value, viewModel)
         }
-//        Question(QuestionStr = "Example question 1")
     }
 }
 @Composable
-fun addQuestionsList(num : Int){
+fun addQuestionsList(num : Int, viewModel: MainViewModel){
+
+    val allQuestions by viewModel.allQuestions.observeAsState(listOf())
+    println("checking info here")
+
     LazyColumn(
         Modifier.padding(24.dp)
     ){
-        items(num) {
-            index ->
-                var x = index + 1
-                Question("Example question $x")
+        for (fruit in allQuestions){
+            item {
+                var answers = listOf(fruit.correctAnswer, fruit.incorrectAnswer1, fruit.incorrectAnswer2, fruit.incorrectAnswer3)
+                Question(fruit.question, answers)
+            }
         }
+
     }
 }
 
@@ -138,12 +136,12 @@ fun numberInputField() {
  * https://stackoverflow.com/questions/58743541/how-to-get-context-in-jetpack-compose
  */
 @Composable
-fun Question(QuestionStr : String) {
+fun Question(QuestionStr : String, answers : List<String>) {
 
 
     //List of options. This represents the answers that will be given by the user
-    val options = listOf("A", "B", "C", "D")
-    val (selectedOption, onOptionSelected) = remember { mutableStateOf(options[2]) }
+//    val options = listOf("A", "B", "C", "D")
+    val (selectedOption, onOptionSelected) = remember { mutableStateOf(answers[2]) }
 
     Column(
         modifier = Modifier
@@ -153,11 +151,13 @@ fun Question(QuestionStr : String) {
         horizontalAlignment = CenterHorizontally
     ) {
         Column {
-            Text(text = QuestionStr,
-                modifier = Modifier.align(CenterHorizontally)) //The text entry for the question
+            Text(
+                text = QuestionStr,
+                modifier = Modifier.align(CenterHorizontally)
+            ) //The text entry for the question
 
             //Add a radio button for each option
-            options.forEach { text ->
+            answers.forEach { text ->
                 Row(
                     Modifier
                         .fillMaxWidth()

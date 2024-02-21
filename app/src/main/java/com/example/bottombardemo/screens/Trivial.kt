@@ -71,14 +71,15 @@ fun Trivial(viewModel: MainViewModel) {
 fun addQuestionsList(num : Int, viewModel: MainViewModel){
 
     val allQuestions by viewModel.allQuestions.observeAsState(listOf())
+    var questions = allQuestions.shuffled()
     println("checking info here")
 
     LazyColumn(
         Modifier.padding(24.dp)
     ){
-        for (fruit in allQuestions){
+        for (fruit in questions){
             item {
-                var answers = listOf(fruit.correctAnswer, fruit.incorrectAnswer1, fruit.incorrectAnswer2, fruit.incorrectAnswer3)
+                var answers = listOf(fruit.correctAnswer, fruit.incorrectAnswer1, fruit.incorrectAnswer2, fruit.incorrectAnswer3).shuffled()
                 Question(fruit.question, answers)
             }
         }

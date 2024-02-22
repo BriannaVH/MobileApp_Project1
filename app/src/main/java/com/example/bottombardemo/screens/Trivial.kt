@@ -139,7 +139,7 @@ fun numberInputField() {
             title = "Number of Questions",
             textState = input,
             onTextChange = onChange,
-            keyboardType = KeyboardType.Text
+            keyboardType = KeyboardType.Number
         )
     }
 

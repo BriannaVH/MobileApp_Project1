@@ -116,10 +116,12 @@ fun numberInputField() {
         if (text.isEmpty() || text.matches(regex)) {
             input = text
             try {
-                val temp = input.toInt()
+                if(text != ""){
+                    val temp = input.toInt()
 
-                numberOfQuestions.value = temp
-                updateQuestionsList.value = false
+                    numberOfQuestions.value = temp
+                    updateQuestionsList.value = false
+                }
             }catch (exception: Exception){
                 exception.printStackTrace()
             }

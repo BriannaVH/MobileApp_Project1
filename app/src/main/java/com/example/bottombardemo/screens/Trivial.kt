@@ -43,6 +43,7 @@ private var questionsLoaded = mutableStateOf(false)
 
 @Composable
 fun Trivial(viewModel: MainViewModel) {
+
     var buttonEnabled by remember { mutableStateOf(true) }
     Column(
         modifier = Modifier
@@ -82,13 +83,14 @@ fun Trivial(viewModel: MainViewModel) {
 fun addQuestionsList(num : Int, viewModel: MainViewModel){
 
     val allQuestions by viewModel.allQuestions.observeAsState(listOf())
-    var questions = allQuestions.shuffled()
+    var numToDrop = 10 - num
+    var questions = allQuestions.shuffled().drop(numToDrop)
     println("checking info here")
 
     LazyColumn(
         Modifier.padding(24.dp)
     ){
-            for(q in questions.drop(10-num)) {
+            for(q in questions) {
             item {
                 val answers = listOf(q.correctAnswer, q.incorrectAnswer1, q.incorrectAnswer2, q.incorrectAnswer3).shuffled()
                 Question(q.question, answers)

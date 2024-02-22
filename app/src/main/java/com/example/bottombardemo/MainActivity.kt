@@ -31,7 +31,6 @@ import com.example.bottombardemo.screens.Contacts
 import com.example.bottombardemo.screens.Favorites
 import com.example.bottombardemo.screens.Home
 import com.example.bottombardemo.screens.Trivial
-import com.example.bottombardemo.screens.initQuestions
 import com.example.bottombardemo.ui.theme.BottomBarDemoTheme
 
 class MainActivity : ComponentActivity() {
@@ -102,7 +101,6 @@ fun NavigationHost(navController: NavHostController, viewModel: MainViewModel) {
         composable(NavRoutes.Academics.route) {
             val allCourses by viewModel.allCourses.observeAsState(listOf())
             val searchResults by viewModel.searchResults.observeAsState(listOf())
-            initQuestions(viewModel = viewModel)
             Academics(
                 allCourses = allCourses,
                 searchResults = searchResults,

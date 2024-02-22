@@ -10,10 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,13 +19,17 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.sp
 import com.example.bottombardemo.MainViewModel
 import com.example.bottombardemo.TrivialQuestion
 
@@ -38,33 +39,40 @@ import com.example.bottombardemo.TrivialQuestion
  */
 private var updateQuestionsList = mutableStateOf(false)
 private var numberOfQuestions = mutableStateOf(10) //default of 10 questions
+private var questionsLoaded = mutableStateOf(false)
 
 @Composable
 fun Trivial(viewModel: MainViewModel) {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
     ) {
-        Icon(
-            imageVector = Icons.Filled.Favorite,
-            contentDescription = "favorites",
-            tint = Color.Blue
-        )
-
-        numberInputField()
-
-
 
         Button(
             onClick = {
-                updateQuestionsList.value = true
+               initQuestions(viewModel = viewModel)
             }, modifier = Modifier.align(CenterHorizontally)
         ) {
-            Text(text = "Start")
+            Text(text = "Load Questions")
         }
 
-        if(updateQuestionsList.value){
-            addQuestionsList(numberOfQuestions.value, viewModel)
+        if (questionsLoaded.value === true){
+            numberInputField()
+
+            Button(
+                onClick = {
+                    updateQuestionsList.value = true
+                    println("Number of Questions $numberOfQuestions")
+                }, modifier = Modifier.align(CenterHorizontally)
+            ) {
+                Text(text = "Go")
+            }
+
+            if(updateQuestionsList.value){
+                addQuestionsList(numberOfQuestions.value, viewModel)
+            }
         }
+
     }
 }
 @Composable
@@ -77,10 +85,10 @@ fun addQuestionsList(num : Int, viewModel: MainViewModel){
     LazyColumn(
         Modifier.padding(24.dp)
     ){
-        for (fruit in questions){
+            for(q in questions.drop(10-num)) {
             item {
-                var answers = listOf(fruit.correctAnswer, fruit.incorrectAnswer1, fruit.incorrectAnswer2, fruit.incorrectAnswer3).shuffled()
-                Question(fruit.question, answers)
+                val answers = listOf(q.correctAnswer, q.incorrectAnswer1, q.incorrectAnswer2, q.incorrectAnswer3).shuffled()
+                Question(q.question, answers)
             }
         }
 
@@ -99,13 +107,13 @@ fun addQuestionsList(num : Int, viewModel: MainViewModel){
 @Composable
 fun numberInputField() {
     var input by remember { mutableStateOf("") } //The number of questions
-    var regex = remember { Regex("^[1-9]\$|^10\$") }
+    val regex = remember { Regex("^[1-9]\$|^10\$") }
 
     val onChange = { text: String ->
         if (text.isEmpty() || text.matches(regex)) {
             input = text
             try {
-                var temp = input.toInt()
+                val temp = input.toInt()
 
                 numberOfQuestions.value = temp
                 updateQuestionsList.value = false
@@ -142,19 +150,26 @@ fun Question(QuestionStr : String, answers : List<String>) {
 
     //List of options. This represents the answers that will be given by the user
 //    val options = listOf("A", "B", "C", "D")
-    val (selectedOption, onOptionSelected) = remember { mutableStateOf(answers[2]) }
+    val (selectedOption, onOptionSelected) = remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = CenterHorizontally
+        horizontalAlignment = CenterHorizontally,
+
     ) {
         Column {
             Text(
                 text = QuestionStr,
-                modifier = Modifier.align(CenterHorizontally)
+                modifier = Modifier
+                    .align(Alignment.Start),
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.W700,
+                    letterSpacing = 0.05.em
+                )
             ) //The text entry for the question
 
             //Add a radio button for each option
@@ -170,7 +185,8 @@ fun Question(QuestionStr : String, answers : List<String>) {
                         .padding(horizontal = 16.dp)
                 ) {
                     val context = LocalContext.current
-                    RadioButton(selected = (text == selectedOption),
+                    RadioButton(
+                        selected = (text == selectedOption),
                         modifier = Modifier.padding(8f.dp),
                         onClick = {
                             onOptionSelected(text)
@@ -191,12 +207,6 @@ fun Question(QuestionStr : String, answers : List<String>) {
 }
 
 
-@Composable
-fun loadQuestions(){
-
-}
-
-@Composable
 fun initQuestions(viewModel: MainViewModel){
     val question1 = TrivialQuestion("When was UVM founded?", "1791", "1950", "1841", "1799")
     val question2 = TrivialQuestion("What are the UVM colors?", "Green and gold", "Red and blue", "Blue and white", "Black and green")
@@ -221,9 +231,9 @@ fun initQuestions(viewModel: MainViewModel){
     viewModel.insertQuestion(question8)
     viewModel.insertQuestion(question9)
     viewModel.insertQuestion(question10)
-//    println("just inserted")
 
-//    println("just got back info")
+    questionsLoaded.value = true
+    println("Questions should be loaded now: ${questionsLoaded.value}")
 }
 
 

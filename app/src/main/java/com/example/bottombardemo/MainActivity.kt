@@ -31,6 +31,7 @@ import com.example.bottombardemo.screens.Contacts
 import com.example.bottombardemo.screens.Favorites
 import com.example.bottombardemo.screens.Home
 import com.example.bottombardemo.screens.Trivial
+import com.example.bottombardemo.screens.initQuestions
 import com.example.bottombardemo.ui.theme.BottomBarDemoTheme
 
 class MainActivity : ComponentActivity() {
@@ -96,6 +97,7 @@ fun NavigationHost(navController: NavHostController, viewModel: MainViewModel) {
         startDestination = NavRoutes.Academics.route,
     ) {
         composable(NavRoutes.Trivial.route) {
+            initQuestions(viewModel = viewModel)
             Trivial(viewModel)
         }
         composable(NavRoutes.Academics.route) {

@@ -43,38 +43,41 @@ private var questionsLoaded = mutableStateOf(false)
 
 @Composable
 fun Trivial(viewModel: MainViewModel) {
+    var buttonEnabled by remember { mutableStateOf(true) }
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
-
-        Button(
-            onClick = {
-               initQuestions(viewModel = viewModel)
-            }, modifier = Modifier.align(CenterHorizontally)
-        ) {
-            Text(text = "Load Questions")
-        }
-
-        if (questionsLoaded.value === true){
-            numberInputField()
-
             Button(
                 onClick = {
-                    updateQuestionsList.value = true
-                    println("Number of Questions $numberOfQuestions")
-                }, modifier = Modifier.align(CenterHorizontally)
+                    initQuestions(viewModel = viewModel)
+                    buttonEnabled = false
+                }, modifier = Modifier.align(CenterHorizontally),
+                enabled = buttonEnabled
             ) {
-                Text(text = "Go")
+                Text(text = "Load Questions")
             }
 
-            if(updateQuestionsList.value){
+
+            if (!buttonEnabled) {
+                numberInputField()
+                Button(
+                    onClick = {
+                        updateQuestionsList.value = true
+                        println("Number of Questions $numberOfQuestions")
+                    }, modifier = Modifier.align(CenterHorizontally)
+                ) {
+                    Text(text = "Go")
+                }
+
+            }
+            if (updateQuestionsList.value) {
                 addQuestionsList(numberOfQuestions.value, viewModel)
             }
         }
 
     }
-}
+
 @Composable
 fun addQuestionsList(num : Int, viewModel: MainViewModel){
 

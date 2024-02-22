@@ -40,10 +40,9 @@ import com.example.bottombardemo.TrivialQuestion
 private var updateQuestionsList = mutableStateOf(false)
 private var numberOfQuestions = mutableStateOf(10) //default of 10 questions
 private var questionsLoaded = mutableStateOf(false)
-
+public var displayQuestions = mutableStateOf(false)
 @Composable
 fun Trivial(viewModel: MainViewModel) {
-
     var buttonEnabled by remember { mutableStateOf(true) }
     Column(
         modifier = Modifier
@@ -65,6 +64,7 @@ fun Trivial(viewModel: MainViewModel) {
                 Button(
                     onClick = {
                         updateQuestionsList.value = true
+                        displayQuestions.value = true
                         println("Number of Questions $numberOfQuestions")
                     }, modifier = Modifier.align(CenterHorizontally)
                 ) {
@@ -72,7 +72,7 @@ fun Trivial(viewModel: MainViewModel) {
                 }
 
             }
-            if (updateQuestionsList.value) {
+            if (displayQuestions.value) {
                 addQuestionsList(numberOfQuestions.value, viewModel)
             }
         }

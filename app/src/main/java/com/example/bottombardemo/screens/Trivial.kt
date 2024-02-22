@@ -82,6 +82,10 @@ fun Trivial(viewModel: MainViewModel) {
 @Composable
 fun addQuestionsList(num : Int, viewModel: MainViewModel){
 
+    if(!updateQuestionsList.value){
+        return
+    }
+
     val allQuestions by viewModel.allQuestions.observeAsState(listOf())
     var numToDrop = 10 - num
     var questions = allQuestions.shuffled().drop(numToDrop)
@@ -96,7 +100,6 @@ fun addQuestionsList(num : Int, viewModel: MainViewModel){
                 Question(q.question, answers)
             }
         }
-
     }
 }
 
@@ -122,12 +125,12 @@ fun numberInputField() {
                     val temp = input.toInt()
 
                     numberOfQuestions.value = temp
-                    updateQuestionsList.value = false
                 }
             }catch (exception: Exception){
                 exception.printStackTrace()
             }
         }
+        updateQuestionsList.value = false
     }
 
     Column(

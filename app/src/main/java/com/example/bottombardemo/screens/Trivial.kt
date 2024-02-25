@@ -50,7 +50,6 @@ fun Trivial(viewModel: MainViewModel) {
     ) {
             Button(
                 onClick = {
-                    initQuestions(viewModel = viewModel)
                     buttonEnabled = false
                 }, modifier = Modifier.align(CenterHorizontally),
                 enabled = buttonEnabled

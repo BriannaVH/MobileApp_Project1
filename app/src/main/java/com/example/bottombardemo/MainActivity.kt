@@ -88,6 +88,8 @@ fun MainScreen(viewModel: MainViewModel) {
             } },
         bottomBar = { BottomNavigationBar(navController = navController)}
     )
+
+    initQuestions(viewModel = viewModel)
 }
 
 @Composable
@@ -98,7 +100,6 @@ fun NavigationHost(navController: NavHostController, viewModel: MainViewModel) {
         startDestination = NavRoutes.Academics.route,
     ) {
         composable(NavRoutes.Trivial.route) {
-            initQuestions(viewModel = viewModel)
             Trivial(viewModel)
         }
         composable(NavRoutes.Academics.route) {

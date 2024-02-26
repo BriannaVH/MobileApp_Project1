@@ -38,15 +38,22 @@ import com.example.bottombardemo.TrivialQuestion
  * Making private variables
  * https://stackoverflow.com/questions/65641635/jetpack-compose-how-can-we-call-a-composable-function-inside-an-onclick
  */
+private var gradeButtonEnabled =  mutableStateOf(false)
+private var questionsSelected = mutableListOf<TrivialQuestion>()
 @Composable
 fun Trivial(viewModel: MainViewModel) {
     var buttonEnabled by remember { mutableStateOf(true) }
-    var gradeButtonEnabled by remember { mutableStateOf(Array(1) {false}) }
+
+
+
     var questionsAnswered by remember { mutableStateOf(Array(10) { ""})}
     var numQuestionsAnswered by remember { mutableStateOf(Array(1) {0}) }
     var displayQuestions by remember { mutableStateOf(false) }
     var numQuestions by remember { mutableStateOf(10) }
     var updateQuestionsList by remember { mutableStateOf(false) }
+    var questions : List<TrivialQuestion>? = viewModel.allQuestions.observeAsState().value
+
+
     val limit = 10
     Column(
         modifier = Modifier
@@ -90,36 +97,46 @@ fun Trivial(viewModel: MainViewModel) {
                     )
                 }
 
-                var questions : List<TrivialQuestion>? = viewModel.allQuestions.observeAsState().value
-                if(questions != null){
-                    println("size before dropping " + questions.size)
-//                    for (fruit in questions){
-//                        println(fruit.question)
-//                    }
-                    var numToDrop = 10 - numQuestions
-                    questions = questions.drop(numToDrop)
-                }
+
 
                 Button(
                     onClick = {
 
-                        if (questions != null) {
-                            println("size of dropped array: " + questions.size)
+                        println("${questionsSelected.size} + ${questionsSelected}")
+                        if (questionsSelected.size === 0){
+
+                            if(questionsSelected != null){
+                                println("size before dropping " + questionsSelected.size)
+
+                                var numToDrop = 10 - numQuestions
+
+                                if (questions != null) {
+                                    questions = questions!!.shuffled()
+                                    questions = questions!!.drop(numToDrop)
+                                    println("size of questions ${questions!!.size}")
+                                    questionsSelected = questions!!.toMutableList()
+                                    println("AFTER ${questionsSelected.size} + ${questionsSelected}")
+                                }
+                            }
+                        }
+
+                        if (questionsSelected != null) {
+                            println("size of dropped array: " + questionsSelected.size)
                             displayQuestions = true
                             updateQuestionsList = true
                         }
-                        println(questions)
+                        println(questionsSelected)
                     }, modifier = Modifier.align(CenterHorizontally)
                 ) {
                     Text(text = "Go")
                 }
-
+                println("Re-rendering grade button")
                 Button(
                     onClick = {
-                        gradeTrivial(questionsAnswered, questions)
+                        gradeTrivial(questionsAnswered, questionsSelected)
                     }, modifier = Modifier.align(CenterHorizontally),
-//                    enabled = gradeButtonEnabled[0]
-                    enabled = true
+                    enabled = gradeButtonEnabled.value
+//                    enabled = true
                 ) {
                     Text(text = "Grade")
                 }
@@ -134,9 +151,9 @@ fun Trivial(viewModel: MainViewModel) {
                     ){
                         // change this so that if checks if the questions have been specified yet
                         // if not, do this, otherwise check what we have already
-                        if (questions != null) {
+                        if (questionsSelected != null) {
                             println("questions are shuffled and displayed")
-                            for(q in questions) {
+                            for(q in questionsSelected) {
                                 item {
                                     val answers = listOf(
                                         q.correctAnswer,
@@ -144,7 +161,7 @@ fun Trivial(viewModel: MainViewModel) {
                                         q.incorrectAnswer2,
                                         q.incorrectAnswer3
                                     ).shuffled()
-                                    Question(q.question, answers, questions.indexOf(q), questionsAnswered, numQuestionsAnswered, gradeButtonEnabled)
+                                    Question(q.question, answers, questionsSelected.indexOf(q), questionsAnswered, numQuestionsAnswered, numQuestions)
                                 }
                             }
                         }
@@ -174,7 +191,7 @@ fun Trivial(viewModel: MainViewModel) {
  * https://stackoverflow.com/questions/58743541/how-to-get-context-in-jetpack-compose
  */
 @Composable
-fun Question(QuestionStr : String, answers : List<String>, id: Int, questionsAnswered: Array<String>, numQuestionsAnswered: Array<Int>, gradeButtonEnabled: Array<Boolean>) {
+fun Question(QuestionStr : String, answers : List<String>, id: Int, questionsAnswered: Array<String>, numQuestionsAnswered: Array<Int>, numQuestions: Int) {
     println("nqr " + id)
 
     //List of options. This represents the answers that will be given by the user
@@ -217,9 +234,9 @@ fun Question(QuestionStr : String, answers : List<String>, id: Int, questionsAns
                                     println("one step closer to being graded " + numQuestionsAnswered[0])
                                     // change to be the actual number of questions later on
                                     println("check num answered " + numQuestionsAnswered[0])
-                                    if (numQuestionsAnswered[0] >= 1){
+                                    if (numQuestionsAnswered[0] === numQuestions){
                                         println("all questions answered")
-                                        gradeButtonEnabled[0] = true
+                                        gradeButtonEnabled.value = true
                                     }
                                 }
                                 else {
@@ -247,7 +264,7 @@ fun Question(QuestionStr : String, answers : List<String>, id: Int, questionsAns
                                 println("check num answered " + numQuestionsAnswered[0])
                                 if (numQuestionsAnswered[0] >= 1){
                                     println("all questions answered")
-                                    gradeButtonEnabled[0] = true
+                                    gradeButtonEnabled.value = true
                                 }
                             }
                             else {

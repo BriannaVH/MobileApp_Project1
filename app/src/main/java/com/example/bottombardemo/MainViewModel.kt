@@ -15,6 +15,7 @@ class MainViewModel(application: Application) : ViewModel() {
     private val repository: CourseRepository
     val searchResults: MutableLiveData<List<Course>>
     init {
+        println("init database")
         val trivialDb = TrivialQuestionDatabase.getInstance(application)
         val trivialQuestionDao = trivialDb.trivialQuestionDao()
 

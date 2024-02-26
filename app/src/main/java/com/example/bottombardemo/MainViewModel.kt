@@ -9,7 +9,7 @@ class MainViewModel(application: Application) : ViewModel() {
 
     val allQuestions: LiveData<List<TrivialQuestion>>
     private val trivialRepository: TrivialRepository
-    val questionSearchResults: MutableLiveData<List<TrivialQuestion>>
+    private val questionSearchResults: MutableLiveData<List<TrivialQuestion>>
 
     val allCourses: LiveData<List<Course>>
     private val repository: CourseRepository

@@ -14,18 +14,16 @@ class MainViewModel(application: Application) : ViewModel() {
     val allCourses: LiveData<List<Course>>
     private val repository: CourseRepository
     val searchResults: MutableLiveData<List<Course>>
-
-
-
     init {
         val trivialDb = TrivialQuestionDatabase.getInstance(application)
         val trivialQuestionDao = trivialDb.trivialQuestionDao()
 
         trivialRepository = TrivialRepository(trivialQuestionDao)
-
         allQuestions = trivialRepository.allQuestions
         questionSearchResults = trivialRepository.searchResults
 
+        trivialRepository.clearQuestionsTable()
+        trivialRepository.insertQuestions()
 
         val courseDb = CourseRoomDatabase.getInstance(application)
         val courseDao = courseDb.courseDao()
@@ -47,12 +45,6 @@ class MainViewModel(application: Application) : ViewModel() {
 
     fun deleteCourse(name: String) {
         repository.deleteCourse(name)
-    }
-
-
-//  Trivia  Questions Queries
-    fun insertQuestion(question: TrivialQuestion) {
-        trivialRepository.insertQuestion(question)
     }
 
     fun findQuestion(id: Int) {

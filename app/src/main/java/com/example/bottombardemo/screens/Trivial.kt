@@ -33,17 +33,16 @@ import androidx.compose.ui.unit.sp
 import com.example.bottombardemo.MainViewModel
 import com.example.bottombardemo.TrivialQuestion
 
+
 /**
  * Making private variables
  * https://stackoverflow.com/questions/65641635/jetpack-compose-how-can-we-call-a-composable-function-inside-an-onclick
  */
-private var updateQuestionsList = mutableStateOf(false)
-private var numberOfQuestions = mutableStateOf(10) //default of 10 questions
-private var questionsLoaded = mutableStateOf(false)
-public var displayQuestions = mutableStateOf(false)
 @Composable
 fun Trivial(viewModel: MainViewModel) {
     var buttonEnabled by remember { mutableStateOf(true) }
+    var displayQuestions by remember { mutableStateOf(false) }
+    var numQuestions by remember { mutableStateOf(10) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -57,50 +56,76 @@ fun Trivial(viewModel: MainViewModel) {
                 Text(text = "Load Questions")
             }
 
-
             if (!buttonEnabled) {
-                numberInputField()
+                Column(
+                    horizontalAlignment = CenterHorizontally,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    var input by remember { mutableStateOf("") } //The number of questions
+                    CustomTextField(
+                        title = "Number of Questions",
+                        textState = input,
+                        onTextChange = {
+                            val regex = Regex("^[1-9]\$|^10\$")
+                            if (it.isEmpty() || it.matches(regex)) {
+                                input = it
+                                try {
+                                    if(it != ""){
+                                        numQuestions = input.toInt()
+                                    }
+                                }catch (exception: Exception){
+                                    //Invalid input. Don't do anything.
+                                }
+                            }
+                        },
+                        keyboardType = KeyboardType.Number
+                    )
+                }
+
+                var questions : List<TrivialQuestion>? = viewModel.allQuestions.observeAsState().value
+                if(questions != null){
+                    println("numQuestions: $numQuestions")
+                    questions = questions.drop(10 - numQuestions)
+                }
+
                 Button(
                     onClick = {
-                        updateQuestionsList.value = true
-                        displayQuestions.value = true
-                        println("Number of Questions $numberOfQuestions")
+
+                        if (questions != null) {
+                            println("size of dropped array: " + questions.size)
+                            displayQuestions = true
+                        }
+                        println(questions)
                     }, modifier = Modifier.align(CenterHorizontally)
                 ) {
                     Text(text = "Go")
                 }
+                if(displayQuestions){
+                    LazyColumn(
+                        Modifier.padding(24.dp)
+                    ){
+                        if (questions != null) {
+                            for(q in questions) {
+                                item {
+                                    val answers = listOf(
+                                        q.correctAnswer,
+                                        q.incorrectAnswer1,
+                                        q.incorrectAnswer2,
+                                        q.incorrectAnswer3
+                                    ).shuffled()
+                                    Question(q.question, answers)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
-            }
-            if (displayQuestions.value) {
-                addQuestionsList(numberOfQuestions.value, viewModel)
-            }
+
         }
 
     }
-
-@Composable
-fun addQuestionsList(num : Int, viewModel: MainViewModel){
-
-    if(!updateQuestionsList.value){
-        return
-    }
-
-    val allQuestions by viewModel.allQuestions.observeAsState(listOf())
-    var numToDrop = 10 - num
-    var questions = allQuestions.shuffled().drop(numToDrop)
-    println("checking info here")
-
-    LazyColumn(
-        Modifier.padding(24.dp)
-    ){
-            for(q in questions) {
-            item {
-                val answers = listOf(q.correctAnswer, q.incorrectAnswer1, q.incorrectAnswer2, q.incorrectAnswer3).shuffled()
-                Question(q.question, answers)
-            }
-        }
-    }
-}
 
 /**
  * Determines the number of questions that will be displayed
@@ -111,42 +136,6 @@ fun addQuestionsList(num : Int, viewModel: MainViewModel){
  * Input validation:
  * https://stackoverflow.com/questions/13508346/regular-expression-for-integer-greater-than-0-and-less-than-11
  */
-@Composable
-fun numberInputField() {
-    var input by remember { mutableStateOf("") } //The number of questions
-    val regex = remember { Regex("^[1-9]\$|^10\$") }
-
-    val onChange = { text: String ->
-        if (text.isEmpty() || text.matches(regex)) {
-            input = text
-            try {
-                if(text != ""){
-                    val temp = input.toInt()
-
-                    numberOfQuestions.value = temp
-                }
-            }catch (exception: Exception){
-                exception.printStackTrace()
-            }
-        }
-        updateQuestionsList.value = false
-    }
-
-    Column(
-        horizontalAlignment = CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-        CustomTextField(
-            title = "Number of Questions",
-            textState = input,
-            onTextChange = onChange,
-            keyboardType = KeyboardType.Number
-        )
-    }
-
-}
-
 /**
  * Template that constructs a question gui component
  *
@@ -215,34 +204,7 @@ fun Question(QuestionStr : String, answers : List<String>) {
     }
 }
 
-
 fun initQuestions(viewModel: MainViewModel){
-    val question1 = TrivialQuestion("When was UVM founded?", "1791", "1950", "1841", "1799")
-    val question2 = TrivialQuestion("What are the UVM colors?", "Green and gold", "Red and blue", "Blue and white", "Black and green")
-    val question3 = TrivialQuestion("What is the UVM mascot?", "Catamount", "Lion", "Panther", "Dog")
-    val question4 = TrivialQuestion("Where is UVM located?", "Burlington Vermont", "LA, California", "Phoenix Arizona", "St Johnsbury, Vermont")
-    val question5 = TrivialQuestion("What Lake is UVM located near?", "Lake Champlain", "Lake Willoughby", "Lake Bomoseen", "Lake Saint Catherine")
-    val question6 = TrivialQuestion("What is the name of the main library?", "Howe", "Uris library", "Bobst library", "Mcquade library")
-    val question7 = TrivialQuestion("What is the school motto?", "\"Studiis et Rebus Honestis\" — \"For studies and other honest pursuits\"", "“Mens agitat molem.\tMind moves matter.”", "“Lux sit. Let there be light.”", "“Crescat scientia; vita excolatur.Let knowledge increase; let life be enriched.”")
-    val question8 = TrivialQuestion("What years are required to live on campus?", "First years", "Second years", "Third years", "A and B")
-    val question9 = TrivialQuestion("How many campuses is UVM composed of?", "4", "5", "3", "2")
-    val question10 = TrivialQuestion("How many residential complexes are there?", "9", "15", "5", "7")
 
-    viewModel.clearQuestionsTable()
 
-    viewModel.insertQuestion(question1)
-    viewModel.insertQuestion(question2)
-    viewModel.insertQuestion(question3)
-    viewModel.insertQuestion(question4)
-    viewModel.insertQuestion(question5)
-    viewModel.insertQuestion(question6)
-    viewModel.insertQuestion(question7)
-    viewModel.insertQuestion(question8)
-    viewModel.insertQuestion(question9)
-    viewModel.insertQuestion(question10)
-
-    questionsLoaded.value = true
-    println("Questions should be loaded now: ${questionsLoaded.value}")
 }
-
-

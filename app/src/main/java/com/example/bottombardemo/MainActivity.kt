@@ -31,7 +31,6 @@ import com.example.bottombardemo.screens.Contacts
 import com.example.bottombardemo.screens.Favorites
 import com.example.bottombardemo.screens.Home
 import com.example.bottombardemo.screens.Trivial
-import com.example.bottombardemo.screens.displayQuestions
 import com.example.bottombardemo.screens.initQuestions
 import com.example.bottombardemo.ui.theme.BottomBarDemoTheme
 
@@ -57,6 +56,7 @@ class MainActivity : ComponentActivity() {
                                 LocalContext.current.applicationContext
                                         as Application)
                         )
+
                         MainScreen(viewModel)
                     }
 
@@ -88,8 +88,6 @@ fun MainScreen(viewModel: MainViewModel) {
             } },
         bottomBar = { BottomNavigationBar(navController = navController)}
     )
-
-    initQuestions(viewModel = viewModel)
 }
 
 @Composable
@@ -109,21 +107,17 @@ fun NavigationHost(navController: NavHostController, viewModel: MainViewModel) {
                 allCourses = allCourses,
                 searchResults = searchResults,
                 viewModel = viewModel)
-            displayQuestions.value = false
         }
         composable(NavRoutes.Home.route) {
             Home()
-            displayQuestions.value = false
         }
 
         composable(NavRoutes.Contacts.route) {
             Contacts()
-            displayQuestions.value = false
         }
 
         composable(NavRoutes.Favorites.route) {
             Favorites()
-            displayQuestions.value = false
         }
     }
 }

@@ -36,4 +36,10 @@ class TrivialQuestion {
         this.incorrectAnswer3 = incorrectAnswer3
 
     }
+
+    override fun toString(): String {
+        return "TrivialQuestion(id=$id, question='$question', correctAnswer='$correctAnswer', incorrectAnswer1='$incorrectAnswer1', incorrectAnswer2='$incorrectAnswer2', incorrectAnswer3='$incorrectAnswer3')"
+    }
+
+
 }

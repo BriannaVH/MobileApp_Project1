@@ -13,10 +13,12 @@ class TrivialRepository(private val trivialQuestionDao: TrivialQuestionDao) {
     val allQuestions: LiveData<List<TrivialQuestion>> = trivialQuestionDao.getAllQuestions()
     val searchResults = MutableLiveData<List<TrivialQuestion>>()
 
-    private val coroutineScope = CoroutineScope(Dispatchers.Main)
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
     fun insertQuestions() {
         coroutineScope.launch(Dispatchers.IO) {
+            trivialQuestionDao.clearQuestionsTable()
+
             val question1 = TrivialQuestion("When was UVM founded?", "1791", "1950", "1841", "1799")
             val question2 = TrivialQuestion("What are the UVM colors?", "Green and gold", "Red and blue", "Blue and white", "Black and green")
             val question3 = TrivialQuestion("What is the UVM mascot?", "Catamount", "Lion", "Panther", "Dog")

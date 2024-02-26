@@ -43,6 +43,8 @@ fun Trivial(viewModel: MainViewModel) {
     var buttonEnabled by remember { mutableStateOf(true) }
     var displayQuestions by remember { mutableStateOf(false) }
     var numQuestions by remember { mutableStateOf(10) }
+    var updateQuestionsList by remember { mutableStateOf(false) }
+    val limit = 10
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -67,7 +69,7 @@ fun Trivial(viewModel: MainViewModel) {
                         title = "Number of Questions",
                         textState = input,
                         onTextChange = {
-                            val regex = Regex("^[1-9]\$|^10\$")
+                            val regex = Regex("^[0-9]\$|^10\$")
                             if (it.isEmpty() || it.matches(regex)) {
                                 input = it
                                 try {
@@ -78,6 +80,8 @@ fun Trivial(viewModel: MainViewModel) {
                                     //Invalid input. Don't do anything.
                                 }
                             }
+
+                            updateQuestionsList = false
                         },
                         keyboardType = KeyboardType.Number
                     )
@@ -85,8 +89,8 @@ fun Trivial(viewModel: MainViewModel) {
 
                 var questions : List<TrivialQuestion>? = viewModel.allQuestions.observeAsState().value
                 if(questions != null){
-                    println("numQuestions: $numQuestions")
-                    questions = questions.drop(10 - numQuestions)
+                    var numToDrop = 10 - numQuestions
+                    questions = questions.drop(numToDrop)
                 }
 
                 Button(
@@ -95,6 +99,7 @@ fun Trivial(viewModel: MainViewModel) {
                         if (questions != null) {
                             println("size of dropped array: " + questions.size)
                             displayQuestions = true
+                            updateQuestionsList = true
                         }
                         println(questions)
                     }, modifier = Modifier.align(CenterHorizontally)
@@ -102,6 +107,10 @@ fun Trivial(viewModel: MainViewModel) {
                     Text(text = "Go")
                 }
                 if(displayQuestions){
+
+                    if(!updateQuestionsList){
+                        return
+                    }
                     LazyColumn(
                         Modifier.padding(24.dp)
                     ){

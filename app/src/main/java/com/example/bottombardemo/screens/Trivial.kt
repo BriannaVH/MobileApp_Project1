@@ -41,6 +41,9 @@ import com.example.bottombardemo.TrivialQuestion
 @Composable
 fun Trivial(viewModel: MainViewModel) {
     var buttonEnabled by remember { mutableStateOf(true) }
+    var gradeButtonEnabled by remember { mutableStateOf(Array(1) {false}) }
+    var questionsAnswered by remember { mutableStateOf(Array(10) { ""})}
+    var numQuestionsAnswered by remember { mutableStateOf(Array(1) {0}) }
     var displayQuestions by remember { mutableStateOf(false) }
     var numQuestions by remember { mutableStateOf(10) }
     var updateQuestionsList by remember { mutableStateOf(false) }
@@ -89,6 +92,10 @@ fun Trivial(viewModel: MainViewModel) {
 
                 var questions : List<TrivialQuestion>? = viewModel.allQuestions.observeAsState().value
                 if(questions != null){
+                    println("size before dropping " + questions.size)
+//                    for (fruit in questions){
+//                        println(fruit.question)
+//                    }
                     var numToDrop = 10 - numQuestions
                     questions = questions.drop(numToDrop)
                 }
@@ -106,6 +113,17 @@ fun Trivial(viewModel: MainViewModel) {
                 ) {
                     Text(text = "Go")
                 }
+
+                Button(
+                    onClick = {
+                        gradeTrivial(questionsAnswered, questions)
+                    }, modifier = Modifier.align(CenterHorizontally),
+//                    enabled = gradeButtonEnabled[0]
+                    enabled = true
+                ) {
+                    Text(text = "Grade")
+                }
+
                 if(displayQuestions){
 
                     if(!updateQuestionsList){
@@ -114,7 +132,10 @@ fun Trivial(viewModel: MainViewModel) {
                     LazyColumn(
                         Modifier.padding(24.dp)
                     ){
+                        // change this so that if checks if the questions have been specified yet
+                        // if not, do this, otherwise check what we have already
                         if (questions != null) {
+                            println("questions are shuffled and displayed")
                             for(q in questions) {
                                 item {
                                     val answers = listOf(
@@ -123,12 +144,13 @@ fun Trivial(viewModel: MainViewModel) {
                                         q.incorrectAnswer2,
                                         q.incorrectAnswer3
                                     ).shuffled()
-                                    Question(q.question, answers)
+                                    Question(q.question, answers, questions.indexOf(q), questionsAnswered, numQuestionsAnswered, gradeButtonEnabled)
                                 }
                             }
                         }
                     }
                 }
+
             }
 
 
@@ -152,13 +174,12 @@ fun Trivial(viewModel: MainViewModel) {
  * https://stackoverflow.com/questions/58743541/how-to-get-context-in-jetpack-compose
  */
 @Composable
-fun Question(QuestionStr : String, answers : List<String>) {
-
+fun Question(QuestionStr : String, answers : List<String>, id: Int, questionsAnswered: Array<String>, numQuestionsAnswered: Array<Int>, gradeButtonEnabled: Array<Boolean>) {
+    println("nqr " + id)
 
     //List of options. This represents the answers that will be given by the user
 //    val options = listOf("A", "B", "C", "D")
-    val (selectedOption, onOptionSelected) = remember { mutableStateOf("") }
-
+    val (selectedOption, onOptionSelected) = remember { mutableStateOf(questionsAnswered[id]) }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -186,7 +207,26 @@ fun Question(QuestionStr : String, answers : List<String>) {
                         .fillMaxWidth()
                         .selectable(
                             selected = (text == selectedOption),
-                            onClick = { onOptionSelected(text) }
+                            onClick = { onOptionSelected(text)
+                                println("onclick triggered")
+                                println("new option selected " + text)
+                                println("previously: " + questionsAnswered[id])
+                                if (questionsAnswered[id] == ""){
+                                    questionsAnswered[id] = text
+                                    numQuestionsAnswered[0] += 1
+                                    println("one step closer to being graded " + numQuestionsAnswered[0])
+                                    // change to be the actual number of questions later on
+                                    println("check num answered " + numQuestionsAnswered[0])
+                                    if (numQuestionsAnswered[0] >= 1){
+                                        println("all questions answered")
+                                        gradeButtonEnabled[0] = true
+                                    }
+                                }
+                                else {
+                                    println("this was already answered before")
+                                    questionsAnswered[id] = text
+                                }
+                            }
                         )
 
                         .padding(horizontal = 16.dp)
@@ -196,8 +236,25 @@ fun Question(QuestionStr : String, answers : List<String>) {
                         selected = (text == selectedOption),
                         modifier = Modifier.padding(8f.dp),
                         onClick = {
+                            println("onclick triggered")
+                            println("new option selected " + text)
+                            println("previously: " + questionsAnswered[id])
+                            if (questionsAnswered[id] == ""){
+                                questionsAnswered[id] = text
+                                numQuestionsAnswered[0] += 1
+                                println("one step closer to being graded " + numQuestionsAnswered[0])
+                                // change to be the actual number of questions later on
+                                println("check num answered " + numQuestionsAnswered[0])
+                                if (numQuestionsAnswered[0] >= 1){
+                                    println("all questions answered")
+                                    gradeButtonEnabled[0] = true
+                                }
+                            }
+                            else {
+                                println("this was already answered before")
+                                questionsAnswered[id] = text
+                            }
                             onOptionSelected(text)
-
                             Toast.makeText(context, text, Toast.LENGTH_LONG).show()
                         }
                     )
@@ -210,6 +267,21 @@ fun Question(QuestionStr : String, answers : List<String>) {
                 }
             }
         }
+    }
+}
+
+fun gradeTrivial(questionsAnswered: Array<String>, questions: List<TrivialQuestion>?){
+    println("grade trivial")
+    var numberCorrect = 0
+    if (questions != null) {
+        for (veggie in questions){
+            println("they answered: " + questionsAnswered[questions.indexOf(veggie)])
+            println("correct answer: " + veggie.correctAnswer)
+            if (questionsAnswered[questions.indexOf(veggie)] == veggie.correctAnswer){
+                numberCorrect += 1
+            }
+        }
+        println("they got " + numberCorrect + " out of " + questions.size + " correct")
     }
 }
 

@@ -122,7 +122,7 @@ fun Trivial(viewModel: MainViewModel) {
                                 var numToDrop = 10 - numQuestions
 
                                 if (questions != null) {
-                                    questions = questions!!.shuffled()
+//                                    questions = questions!!.shuffled()
                                     questions = questions!!.drop(numToDrop)
                                     println("size of questions ${questions!!.size}")
                                     questionsSelected = questions!!.toMutableList()
@@ -167,6 +167,10 @@ fun Trivial(viewModel: MainViewModel) {
                     if(!updateQuestionsList){
                         return
                     }
+
+                    if(!shouldShuffleAnswers.value){
+                        return
+                    }
                     /**
                      * https://stackoverflow.com/questions/68164883/how-do-i-create-a-jetpack-compose-column-where-a-middle-child-is-scrollable-but
                      * ^ Making the column scrollable
@@ -181,12 +185,17 @@ fun Trivial(viewModel: MainViewModel) {
                         if (questionsSelected != null) {
                             println("questions are shuffled and displayed")
                             for(q in questionsSelected) {
-                                val answers = listOf(
+                                var answers = listOf(
                                     q.correctAnswer,
                                     q.incorrectAnswer1,
                                     q.incorrectAnswer2,
                                     q.incorrectAnswer3
-                                ).shuffled()
+                                )
+
+                                if(shouldShuffleAnswers.value){
+                                    answers = answers.shuffled()
+                                }
+
                                 Question(q.question, answers, questionsSelected.indexOf(q), questionsAnswered, numQuestionsAnswered, numQuestions, q.correctAnswer, showAnswers)
                             }
                         }

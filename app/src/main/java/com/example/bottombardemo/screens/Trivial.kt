@@ -13,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -54,7 +56,7 @@ fun Trivial(viewModel: MainViewModel) {
     var numQuestions by remember { mutableStateOf(10) }
     var updateQuestionsList by remember { mutableStateOf(false) }
     var questions : List<TrivialQuestion>? = viewModel.allQuestions.observeAsState().value
-
+    var showAnswers by remember { mutableStateOf(false)}
 
     val limit = 10
     Column(
@@ -104,6 +106,7 @@ fun Trivial(viewModel: MainViewModel) {
 
                 Button(
                     onClick = {
+                            showAnswers = false
                             gradeButtonEnabled.value = false
                             showGrade = false
                             overallGrade = 0
@@ -139,6 +142,7 @@ fun Trivial(viewModel: MainViewModel) {
                     println("Re-rendering grade button")
                     Button(
                         onClick = {
+                            showAnswers = true
                             overallGrade = gradeTrivial(questionsAnswered, questionsSelected)
                             showGrade = true
                         }, modifier = Modifier.align(CenterHorizontally),
@@ -179,7 +183,7 @@ fun Trivial(viewModel: MainViewModel) {
                                     q.incorrectAnswer2,
                                     q.incorrectAnswer3
                                 ).shuffled()
-                                Question(q.question, answers, questionsSelected.indexOf(q), questionsAnswered, numQuestionsAnswered, numQuestions)
+                                Question(q.question, answers, questionsSelected.indexOf(q), questionsAnswered, numQuestionsAnswered, numQuestions, q.correctAnswer, showAnswers)
                             }
                         }
                     }
@@ -206,7 +210,7 @@ fun Trivial(viewModel: MainViewModel) {
  * https://stackoverflow.com/questions/58743541/how-to-get-context-in-jetpack-compose
  */
 @Composable
-fun Question(QuestionStr : String, answers : List<String>, id: Int, questionsAnswered: Array<String>, numQuestionsAnswered: Array<Int>, numQuestions: Int) {
+fun Question(QuestionStr : String, answers : List<String>, id: Int, questionsAnswered: Array<String>, numQuestionsAnswered: Array<Int>, numQuestions: Int, correctAnswer: String, showAnswers: Boolean) {
     println("nqr " + id)
 
     //List of options. This represents the answers that will be given by the user
@@ -300,6 +304,14 @@ fun Question(QuestionStr : String, answers : List<String>, id: Int, questionsAns
                     )
                 }
             }
+            if (showAnswers){
+                Text(
+                    text = "Correct Answer: " + correctAnswer,
+                    modifier = Modifier.align(CenterHorizontally),
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+
         }
     }
 }

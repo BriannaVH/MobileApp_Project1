@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -146,23 +148,23 @@ fun Trivial(viewModel: MainViewModel) {
                     if(!updateQuestionsList){
                         return
                     }
-                    LazyColumn(
-                        Modifier.padding(24.dp)
+                    Column(
+                        Modifier
+                            .padding(24.dp)
+                            .verticalScroll(rememberScrollState())
                     ){
                         // change this so that if checks if the questions have been specified yet
                         // if not, do this, otherwise check what we have already
                         if (questionsSelected != null) {
                             println("questions are shuffled and displayed")
                             for(q in questionsSelected) {
-                                item {
-                                    val answers = listOf(
-                                        q.correctAnswer,
-                                        q.incorrectAnswer1,
-                                        q.incorrectAnswer2,
-                                        q.incorrectAnswer3
-                                    ).shuffled()
-                                    Question(q.question, answers, questionsSelected.indexOf(q), questionsAnswered, numQuestionsAnswered, numQuestions)
-                                }
+                                val answers = listOf(
+                                    q.correctAnswer,
+                                    q.incorrectAnswer1,
+                                    q.incorrectAnswer2,
+                                    q.incorrectAnswer3
+                                ).shuffled()
+                                Question(q.question, answers, questionsSelected.indexOf(q), questionsAnswered, numQuestionsAnswered, numQuestions)
                             }
                         }
                     }
@@ -224,22 +226,22 @@ fun Question(QuestionStr : String, answers : List<String>, id: Int, questionsAns
                         .fillMaxWidth()
                         .selectable(
                             selected = (text == selectedOption),
-                            onClick = { onOptionSelected(text)
+                            onClick = {
+                                onOptionSelected(text)
                                 println("onclick triggered")
                                 println("new option selected " + text)
                                 println("previously: " + questionsAnswered[id])
-                                if (questionsAnswered[id] == ""){
+                                if (questionsAnswered[id] == "") {
                                     questionsAnswered[id] = text
                                     numQuestionsAnswered[0] += 1
                                     println("one step closer to being graded " + numQuestionsAnswered[0])
                                     // change to be the actual number of questions later on
                                     println("check num answered " + numQuestionsAnswered[0])
-                                    if (numQuestionsAnswered[0] === numQuestions){
+                                    if (numQuestionsAnswered[0] === numQuestions) {
                                         println("all questions answered")
                                         gradeButtonEnabled.value = true
                                     }
-                                }
-                                else {
+                                } else {
                                     println("this was already answered before")
                                     questionsAnswered[id] = text
                                 }

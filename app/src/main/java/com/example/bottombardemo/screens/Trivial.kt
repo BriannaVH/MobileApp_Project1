@@ -175,8 +175,6 @@ fun Trivial(viewModel: MainViewModel) {
                 }
 
             }
-
-
         }
 
     }
@@ -241,6 +239,7 @@ fun Question(QuestionStr : String, answers : List<String>, id: Int, questionsAns
                                     println("one step closer to being graded " + numQuestionsAnswered[0])
                                     // change to be the actual number of questions later on
                                     println("check num answered " + numQuestionsAnswered[0])
+                                    println("check num needed " + numQuestions)
                                     if (numQuestionsAnswered[0] === numQuestions) {
                                         println("all questions answered")
                                         gradeButtonEnabled.value = true
@@ -268,7 +267,8 @@ fun Question(QuestionStr : String, answers : List<String>, id: Int, questionsAns
                                 println("one step closer to being graded " + numQuestionsAnswered[0])
                                 // change to be the actual number of questions later on
                                 println("check num answered " + numQuestionsAnswered[0])
-                                if (numQuestionsAnswered[0] >= 1){
+                                println("check num needed " + numQuestions)
+                                if (numQuestionsAnswered[0] === numQuestions) {
                                     println("all questions answered")
                                     gradeButtonEnabled.value = true
                                 }

@@ -45,7 +45,7 @@ import com.example.bottombardemo.TrivialQuestion
 private var gradeButtonEnabled =  mutableStateOf(false)
 private var questionsSelected = mutableListOf<TrivialQuestion>()
 private var shouldShuffleAnswers =  mutableStateOf(false)
-var answers = mutableMapOf<TrivialQuestion, List<String>>()
+var answers = mutableMapOf<Int, List<String>>()
 @Composable
 fun Trivial(viewModel: MainViewModel) {
     var overallGrade by remember {mutableStateOf(0)}
@@ -117,6 +117,7 @@ fun Trivial(viewModel: MainViewModel) {
                             shouldShuffleAnswers.value = false
                             overallGrade = 0
                             questionsAnswered = Array(10) { ""}
+                            answers.clear()
                             numQuestionsAnswered[0] = 0
                             println("${questionsSelected.size} + ${questionsSelected}")
                             if(questionsSelected != null){
@@ -146,8 +147,8 @@ fun Trivial(viewModel: MainViewModel) {
                                     q.incorrectAnswer1,
                                     q.incorrectAnswer2,
                                     q.incorrectAnswer3
-                                )
-                                answers[q] = answer
+                                ).shuffled()
+                                answers[questionsSelected.indexOf(q)] = answer
                             }
                         }
 
@@ -198,10 +199,11 @@ fun Trivial(viewModel: MainViewModel) {
                         if (questionsSelected != null) {
                             println("questions are shuffled and displayed")
 //                            Question(q.question, answers[], questionsSelected.indexOf(q), questionsAnswered, numQuestionsAnswered, numQuestions, q.correctAnswer, showAnswers)
-                            for(i in answers){
-//                                Question(a, b, h, questionsAnswered, numQuestionsAnswered, numQuestions, f,  showAnswers)
-                            }
+                            // loop through each question and make a question for it
 
+                            for(i in answers){
+                            Question(questionsSelected[i.key].question, i.value, i.key, questionsAnswered, numQuestionsAnswered, numQuestions, questionsSelected[i.key].correctAnswer, showAnswers)
+                            }
                         }
                     }
                 }

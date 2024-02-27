@@ -44,7 +44,7 @@ import com.example.bottombardemo.TrivialQuestion
  */
 private var gradeButtonEnabled =  mutableStateOf(false)
 private var questionsSelected = mutableListOf<TrivialQuestion>()
-
+private var shouldShuffleAnswers =  mutableStateOf(false)
 @Composable
 fun Trivial(viewModel: MainViewModel) {
     var overallGrade by remember {mutableStateOf(0)}
@@ -67,6 +67,7 @@ fun Trivial(viewModel: MainViewModel) {
                 onClick = {
                     buttonEnabled = false
                     gradeButtonEnabled.value = false
+                    shouldShuffleAnswers.value = false
                 }, modifier = Modifier.align(CenterHorizontally),
                 enabled = buttonEnabled
             ) {
@@ -97,6 +98,7 @@ fun Trivial(viewModel: MainViewModel) {
                             }
 
                             updateQuestionsList = false
+                            shouldShuffleAnswers.value = false
                         },
                         keyboardType = KeyboardType.Number
                     )
@@ -109,6 +111,7 @@ fun Trivial(viewModel: MainViewModel) {
                             showAnswers = false
                             gradeButtonEnabled.value = false
                             showGrade = false
+                            shouldShuffleAnswers.value = false
                             overallGrade = 0
                             questionsAnswered = Array(10) { ""}
                             numQuestionsAnswered[0] = 0
@@ -132,6 +135,7 @@ fun Trivial(viewModel: MainViewModel) {
                             println("size of dropped array: " + questionsSelected.size)
                             displayQuestions = true
                             updateQuestionsList = true
+                            shouldShuffleAnswers.value = true
                         }
                         println(questionsSelected)
                     }, modifier = Modifier.align(CenterHorizontally)

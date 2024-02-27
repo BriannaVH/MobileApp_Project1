@@ -42,6 +42,8 @@ import com.example.bottombardemo.TrivialQuestion
  */
 private var gradeButtonEnabled =  mutableStateOf(false)
 private var questionsSelected = mutableListOf<TrivialQuestion>()
+private var showGrade = mutableStateOf(false)
+private var overallGrade = mutableStateOf(0)
 @Composable
 fun Trivial(viewModel: MainViewModel) {
     var buttonEnabled by remember { mutableStateOf(true) }
@@ -133,16 +135,21 @@ fun Trivial(viewModel: MainViewModel) {
                     println("Re-rendering grade button")
                     Button(
                         onClick = {
-                            gradeTrivial(questionsAnswered, questionsSelected)
+                            overallGrade.value = gradeTrivial(questionsAnswered, questionsSelected)
+                            showGrade.value = true
                         }, modifier = Modifier.align(CenterHorizontally),
                         enabled = gradeButtonEnabled.value
-//                    enabled = true
                     ) {
                         Text(text = "Grade")
                     }
 
-
-
+                //If the showGrade flag is enabled...
+                if(showGrade.value){
+                    Text(
+                        text = " You scored: ${overallGrade.value} out of $numQuestions questions",
+                        modifier = Modifier.align(CenterHorizontally)
+                    ) //Display the overallGrade value
+                }
                 if(displayQuestions){
 
                     if(!updateQuestionsList){
@@ -293,7 +300,7 @@ fun Question(QuestionStr : String, answers : List<String>, id: Int, questionsAns
     }
 }
 
-fun gradeTrivial(questionsAnswered: Array<String>, questions: List<TrivialQuestion>?){
+fun gradeTrivial(questionsAnswered: Array<String>, questions: List<TrivialQuestion>?) : Int{
     println("grade trivial")
     var numberCorrect = 0
     if (questions != null) {
@@ -306,6 +313,8 @@ fun gradeTrivial(questionsAnswered: Array<String>, questions: List<TrivialQuesti
         }
         println("they got " + numberCorrect + " out of " + questions.size + " correct")
     }
+
+    return numberCorrect
 }
 
 fun initQuestions(viewModel: MainViewModel){

@@ -45,9 +45,6 @@ private var questionsSelected = mutableListOf<TrivialQuestion>()
 @Composable
 fun Trivial(viewModel: MainViewModel) {
     var buttonEnabled by remember { mutableStateOf(true) }
-
-
-
     var questionsAnswered by remember { mutableStateOf(Array(10) { ""})}
     var numQuestionsAnswered by remember { mutableStateOf(Array(1) {0}) }
     var displayQuestions by remember { mutableStateOf(false) }
@@ -103,10 +100,10 @@ fun Trivial(viewModel: MainViewModel) {
 
                 Button(
                     onClick = {
-
-                        println("${questionsSelected.size} + ${questionsSelected}")
-                        if (questionsSelected.size === 0){
-
+                            gradeButtonEnabled.value = false
+                            questionsAnswered = Array(10) { ""}
+                            numQuestionsAnswered[0] = 0
+                            println("${questionsSelected.size} + ${questionsSelected}")
                             if(questionsSelected != null){
                                 println("size before dropping " + questionsSelected.size)
 
@@ -120,7 +117,7 @@ fun Trivial(viewModel: MainViewModel) {
                                     println("AFTER ${questionsSelected.size} + ${questionsSelected}")
                                 }
                             }
-                        }
+
 
                         if (questionsSelected != null) {
                             println("size of dropped array: " + questionsSelected.size)
@@ -132,16 +129,19 @@ fun Trivial(viewModel: MainViewModel) {
                 ) {
                     Text(text = "Go")
                 }
-                println("Re-rendering grade button")
-                Button(
-                    onClick = {
-                        gradeTrivial(questionsAnswered, questionsSelected)
-                    }, modifier = Modifier.align(CenterHorizontally),
-                    enabled = gradeButtonEnabled.value
+
+                    println("Re-rendering grade button")
+                    Button(
+                        onClick = {
+                            gradeTrivial(questionsAnswered, questionsSelected)
+                        }, modifier = Modifier.align(CenterHorizontally),
+                        enabled = gradeButtonEnabled.value
 //                    enabled = true
-                ) {
-                    Text(text = "Grade")
-                }
+                    ) {
+                        Text(text = "Grade")
+                    }
+
+
 
                 if(displayQuestions){
 

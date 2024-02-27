@@ -45,6 +45,7 @@ import com.example.bottombardemo.TrivialQuestion
 private var gradeButtonEnabled =  mutableStateOf(false)
 private var questionsSelected = mutableListOf<TrivialQuestion>()
 private var shouldShuffleAnswers =  mutableStateOf(false)
+var answers = mutableMapOf<TrivialQuestion, List<String>>()
 @Composable
 fun Trivial(viewModel: MainViewModel) {
     var overallGrade by remember {mutableStateOf(0)}
@@ -57,6 +58,8 @@ fun Trivial(viewModel: MainViewModel) {
     var updateQuestionsList by remember { mutableStateOf(false) }
     var questions : List<TrivialQuestion>? = viewModel.allQuestions.observeAsState().value
     var showAnswers by remember { mutableStateOf(false)}
+
+
 
     val limit = 10
     Column(
@@ -122,7 +125,7 @@ fun Trivial(viewModel: MainViewModel) {
                                 var numToDrop = 10 - numQuestions
 
                                 if (questions != null) {
-//                                    questions = questions!!.shuffled()
+                                    questions = questions!!.shuffled()
                                     questions = questions!!.drop(numToDrop)
                                     println("size of questions ${questions!!.size}")
                                     questionsSelected = questions!!.toMutableList()
@@ -135,9 +138,19 @@ fun Trivial(viewModel: MainViewModel) {
                             println("size of dropped array: " + questionsSelected.size)
                             displayQuestions = true
                             updateQuestionsList = true
-                            shouldShuffleAnswers.value = true
+
+                            for(q in questionsSelected) {
+                                println("q: $q")
+                                var answer = listOf(
+                                    q.correctAnswer,
+                                    q.incorrectAnswer1,
+                                    q.incorrectAnswer2,
+                                    q.incorrectAnswer3
+                                )
+                                answers[q] = answer
+                            }
                         }
-                        println(questionsSelected)
+
                     }, modifier = Modifier.align(CenterHorizontally)
                 ) {
                     Text(text = "Go")
@@ -162,15 +175,15 @@ fun Trivial(viewModel: MainViewModel) {
                         modifier = Modifier.align(CenterHorizontally)
                     ) //Display the overallGrade value
                 }
+
+                println("answers: $answers")
                 if(displayQuestions){
 
                     if(!updateQuestionsList){
                         return
                     }
 
-                    if(!shouldShuffleAnswers.value){
-                        return
-                    }
+//
                     /**
                      * https://stackoverflow.com/questions/68164883/how-do-i-create-a-jetpack-compose-column-where-a-middle-child-is-scrollable-but
                      * ^ Making the column scrollable
@@ -184,20 +197,11 @@ fun Trivial(viewModel: MainViewModel) {
                         // if not, do this, otherwise check what we have already
                         if (questionsSelected != null) {
                             println("questions are shuffled and displayed")
-                            for(q in questionsSelected) {
-                                var answers = listOf(
-                                    q.correctAnswer,
-                                    q.incorrectAnswer1,
-                                    q.incorrectAnswer2,
-                                    q.incorrectAnswer3
-                                )
-
-                                if(shouldShuffleAnswers.value){
-                                    answers = answers.shuffled()
-                                }
-
-                                Question(q.question, answers, questionsSelected.indexOf(q), questionsAnswered, numQuestionsAnswered, numQuestions, q.correctAnswer, showAnswers)
+//                            Question(q.question, answers[], questionsSelected.indexOf(q), questionsAnswered, numQuestionsAnswered, numQuestions, q.correctAnswer, showAnswers)
+                            for(i in answers){
+//                                Question(a, b, h, questionsAnswered, numQuestionsAnswered, numQuestions, f,  showAnswers)
                             }
+
                         }
                     }
                 }

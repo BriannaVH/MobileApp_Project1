@@ -42,10 +42,11 @@ import com.example.bottombardemo.TrivialQuestion
  */
 private var gradeButtonEnabled =  mutableStateOf(false)
 private var questionsSelected = mutableListOf<TrivialQuestion>()
-private var showGrade = mutableStateOf(false)
-private var overallGrade = mutableStateOf(0)
+
 @Composable
 fun Trivial(viewModel: MainViewModel) {
+    var overallGrade by remember {mutableStateOf(0)}
+    var showGrade by remember { mutableStateOf(false) }
     var buttonEnabled by remember { mutableStateOf(true) }
     var questionsAnswered by remember { mutableStateOf(Array(10) { ""})}
     var numQuestionsAnswered by remember { mutableStateOf(Array(1) {0}) }
@@ -63,6 +64,7 @@ fun Trivial(viewModel: MainViewModel) {
             Button(
                 onClick = {
                     buttonEnabled = false
+                    gradeButtonEnabled.value = false
                 }, modifier = Modifier.align(CenterHorizontally),
                 enabled = buttonEnabled
             ) {
@@ -103,6 +105,8 @@ fun Trivial(viewModel: MainViewModel) {
                 Button(
                     onClick = {
                             gradeButtonEnabled.value = false
+                            showGrade = false
+                            overallGrade = 0
                             questionsAnswered = Array(10) { ""}
                             numQuestionsAnswered[0] = 0
                             println("${questionsSelected.size} + ${questionsSelected}")
@@ -135,8 +139,8 @@ fun Trivial(viewModel: MainViewModel) {
                     println("Re-rendering grade button")
                     Button(
                         onClick = {
-                            overallGrade.value = gradeTrivial(questionsAnswered, questionsSelected)
-                            showGrade.value = true
+                            overallGrade = gradeTrivial(questionsAnswered, questionsSelected)
+                            showGrade = true
                         }, modifier = Modifier.align(CenterHorizontally),
                         enabled = gradeButtonEnabled.value
                     ) {
@@ -144,9 +148,9 @@ fun Trivial(viewModel: MainViewModel) {
                     }
 
                 //If the showGrade flag is enabled...
-                if(showGrade.value){
+                if(showGrade){
                     Text(
-                        text = " You scored: ${overallGrade.value} out of $numQuestions questions",
+                        text = " You scored: ${overallGrade} out of $numQuestions questions",
                         modifier = Modifier.align(CenterHorizontally)
                     ) //Display the overallGrade value
                 }

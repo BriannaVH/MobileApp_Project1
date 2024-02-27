@@ -148,6 +148,10 @@ fun Trivial(viewModel: MainViewModel) {
                     if(!updateQuestionsList){
                         return
                     }
+                    /**
+                     * https://stackoverflow.com/questions/68164883/how-do-i-create-a-jetpack-compose-column-where-a-middle-child-is-scrollable-but
+                     * ^ Making the column scrollable
+                     */
                     Column(
                         Modifier
                             .padding(24.dp)

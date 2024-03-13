@@ -29,9 +29,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.bottombardemo.screens.Academics
 import com.example.bottombardemo.screens.Contacts
 import com.example.bottombardemo.screens.Favorites
-import com.example.bottombardemo.screens.Home
+import com.example.bottombardemo.screens.Fame
 import com.example.bottombardemo.screens.Trivial
-import com.example.bottombardemo.screens.initQuestions
 import com.example.bottombardemo.ui.theme.BottomBarDemoTheme
 
 class MainActivity : ComponentActivity() {
@@ -109,7 +108,7 @@ fun NavigationHost(navController: NavHostController, viewModel: MainViewModel) {
                 viewModel = viewModel)
         }
         composable(NavRoutes.Home.route) {
-            Home()
+            Fame()
         }
 
         composable(NavRoutes.Contacts.route) {
@@ -156,4 +155,3 @@ fun BottomNavigationBar(navController: NavHostController) {
 
     }
 }
-

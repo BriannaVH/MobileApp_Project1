@@ -14,9 +14,9 @@ object NavBarItems {
             route = "trivial"
         ),
         BarItem(
-            title = "Safety",
+            title = "Fame",
             image = R.drawable.face,
-            route = "home"
+            route = "fame"
         ),
         BarItem(
             title = "Contact",

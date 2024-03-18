@@ -3,7 +3,6 @@ package com.example.bottombardemo.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -13,7 +12,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -34,22 +35,52 @@ import com.example.bottombardemo.R
 @Composable
 fun Fame() {
 
-    Box(
-        modifier = Modifier.fillMaxSize()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+
     ) {
         Column(modifier = Modifier
             .wrapContentWidth()
-            .align(Alignment.TopCenter)
+            .align(alignment = Alignment.CenterHorizontally)
+            .verticalScroll(rememberScrollState())
         )
         {
             Text("Famous Achievements", fontWeight = FontWeight.Bold)
-            FameEntry("Person asndkjdnka 2", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse massa nunc, eleifend efficitur turpis sed, finibus convallis erat. Vestibulum lacinia fringilla diam vitae volutpat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce nec efficitur velit, placerat luctus mi. Donec ultricies turpis in quam aliquet convallis. Aliquam egestas tortor nec euismod volutpat. Integer congue cursus dolor, non ornare felis luctus sit amet. Nunc et elit tempus, consequat nisi eu, facilisis augue. Phasellus in leo mi. Nunc non iaculis dui. Ut eu libero in velit porttitor ullamcorper quis sed ante. Pellentesque sodales justo vel ante varius, non consectetur quam feugiat. Morbi vitae dui dapibus, pharetra diam sed, feugiat neque. Cras pharetra urna diam, luctus vulputate dui interdum a. Curabitur ac orci et velit imperdiet finibus.")
+            FameEntry(
+                "National Ranking",
+                "University of Vermont is ranked 133 out of 439 schools nationally.",
+                R.drawable.uvmlogo)
+            FameEntry(
+                "Skiing Championship",
+                "UVM is a six-time national champion in skiing.",
+                R.drawable.skiing)
+            FameEntry(
+                "Varsity Teams",
+                "UVM has 18 varsity teams that compete at the NCAA Division level I.",
+                R.drawable.uvmcat)
+            FameEntry(
+                "Associations",
+                "The UVM Catamounts are members of the American East Conference, the Hockey East Association, and the Eastern Intercollegiate Ski Association.",
+                R.drawable.aec)
+            FameEntry(
+                "Academic Cup",
+                "UVM won the first Academic Cup in 1996, with 8 wins overall. It is the only school in the American East that has won the Academic Cup seven years in a row (2005-2011).",
+                R.drawable.academiccup)
             Text("Famous People", fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
-            FameEntry("Jody Williams", "Jody Williams was a Nobel Peace Prize Laureate in 1997. She was awarded it because she worked towards banning and clearing landmines. By 1997, thanks to her strength and organizational talent, the International Campaign to Ban Landmines (ICBL) had 1,000 organizations from 60 countries on its list of members. The Ottawa Convention, which was signed by 120 states and entered into force in 1999, will always be associated with the names of Jody Williams and the ICBL. It banned the use, production, sale and stock-piling of anti-personnel mines. In addition it contained provisions concerning mine clearance and the obligation to provide humanitarian assistance.")
-            FameEntry("Henry Jarvis Raymond", "Henry was was an American journalist, newspaper publisher, and politician who co-founded both the Republican Party and The New York Times. He was a member of the New York State Assembly, the lieutenant governor of New York, Chairman of the Republican National Committee, and elected to the US House of Representatives. For his contribution towards the formation of the Republican Party,[1] Raymond has sometimes been called the godfather of the Republican Party.")
-            FameEntry("Barbara Cochran", "Barbara Ann Cochran is a former World Cup alpine ski racer and Olympic gold medalist from the United States. Born in Claremont, New Hampshire, Cochran was the second of four siblings of the famous \"Skiing Cochrans\" family of Richmond, Vermont, which has operated a small ski area in their backyard since 1961. Cochran published her book Skiing for Women and she eventually became a writer for The Washington Post.")
-            FameEntry("H. H. Holmes", "Herman Webster Mudgett, better known as Dr. Henry Howard Holmes or H. H. Holmes, was an American con artist and serial killer active between 1891 and 1894. By the time of his execution in 1896, Holmes had engaged in a lengthy criminal career that included insurance fraud, forgery, swindling, three to four bigamous illegal marriages, horse theft and murder.")
-
+            FameEntry("Jody Williams",
+                "Jody Williams was a Nobel Peace Prize Laureate in 1997. She was awarded it because she worked towards banning and clearing landmines. By 1997, thanks to her strength and organizational talent, the International Campaign to Ban Landmines (ICBL) had 1,000 organizations from 60 countries on its list of members. The Ottawa Convention, which was signed by 120 states and entered into force in 1999, will always be associated with the names of Jody Williams and the ICBL. It banned the use, production, sale and stock-piling of anti-personnel mines. In addition it contained provisions concerning mine clearance and the obligation to provide humanitarian assistance.",
+                R.drawable.jw)
+            FameEntry(
+                "Henry Jarvis Raymond", "Henry was was an American journalist, newspaper publisher, and politician who co-founded both the Republican Party and The New York Times. He was a member of the New York State Assembly, the lieutenant governor of New York, Chairman of the Republican National Committee, and elected to the US House of Representatives. For his contribution towards the formation of the Republican Party,[1] Raymond has sometimes been called the godfather of the Republican Party.",
+                R.drawable.hjr)
+            FameEntry(
+                "Barbara Cochran", "Barbara Ann Cochran is a former World Cup alpine ski racer and Olympic gold medalist from the United States. Born in Claremont, New Hampshire, Cochran was the second of four siblings of the famous \"Skiing Cochrans\" family of Richmond, Vermont, which has operated a small ski area in their backyard since 1961. Cochran published her book Skiing for Women and she eventually became a writer for The Washington Post.",
+                R.drawable.bc)
+            FameEntry(
+                "H. H. Holmes",
+                "Herman Webster Mudgett, better known as Dr. Henry Howard Holmes or H. H. Holmes, was an American con artist and serial killer active between 1891 and 1894. By the time of his execution in 1896, Holmes had engaged in a lengthy criminal career that included insurance fraud, forgery, swindling, three to four bigamous illegal marriages, horse theft and murder.",
+                R.drawable.hhh)
         }
     }
 
@@ -62,11 +93,11 @@ fun Fame() {
  */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun FameEntry(personName : String, description : String){
+fun FameEntry(personName : String, description : String, id: Int){
 
         var showDialog by remember { mutableStateOf(false) }
         if (showDialog) {
-            CustomDialog(onDismissRequest = { showDialog = false}, personName, description)
+            CustomDialog(onDismissRequest = { showDialog = false}, personName, description, id)
         }
             FlowRow(
                 modifier = Modifier
@@ -100,14 +131,16 @@ fun FameEntry(personName : String, description : String){
 
 
 @Composable
-fun CustomDialog(onDismissRequest: () -> Unit, individualName : String, description: String) {
+fun CustomDialog(onDismissRequest: () -> Unit, individualName : String, description: String, id: Int) {
     AlertDialog(
         onDismissRequest = { onDismissRequest() },
         title = { Text(text = individualName) },
         text = {
-            Column {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Text(description)
-                Image(painter = painterResource(id = R.drawable.test_image), contentDescription = "Your Image Description")
+                Image(painter = painterResource(id = id), contentDescription = "Your Image Description", modifier = Modifier.padding(15.dp))
             }
         },
         confirmButton = {

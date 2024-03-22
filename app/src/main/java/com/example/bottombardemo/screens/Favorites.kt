@@ -1,32 +1,78 @@
 package com.example.bottombardemo.screens
 
+import android.graphics.drawable.BitmapDrawable
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.bottombardemo.R
 
 @Composable
 fun Favorites() {
 
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Icon(
-            imageVector = Icons.Filled.Favorite,
-            contentDescription = "favorites",
-            tint = Color.Blue // ,
-//            modifier = Modifier.size(150.dp)
-//                .align(Alignment.Center)
-        )
+    //simple expandable card example with just text
+    var lorem_ipsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi efficitur malesuada risus, eu pellentesque metus tincidunt sed. Praesent dapibus odio ut mollis porta. Nam imperdiet porttitor nisi, vel dapibus mauris laoreet eu. Donec mauris purus, hendrerit volutpat vestibulum a, convallis ac purus. Mauris ac eleifend justo. Pellentesque ac lectus a tortor commodo cursus sed sed risus. Aenean eu ligula suscipit nunc mollis rutrum. Mauris non scelerisque urna. Mauris et ultricies orci. Nullam turpis massa, aliquet et tortor at, venenatis vehicula ipsum. Sed placerat tellus purus, vitae elementum est pharetra vitae. Etiam et odio sapien. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Morbi ultrices ac felis a tincidunt. Duis non sem non diam ultricies finibus."
+    var example_description = "Hello World"
+    ExpandableTextCard(headerString = example_description, descriptionString = lorem_ipsum)
+}
 
-        Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ipsum velit, dictum eget velit rutrum, tempus mollis orci. Fusce sollicitudin ullamcorper augue at pellentesque. Integer sit amet felis at est placerat malesuada nec eget tellus. In vitae risus tristique, volutpat velit sit amet, tristique magna. Cras a vestibulum ipsum. Donec commodo quis felis eu convallis. Nulla eget auctor neque. Aliquam ut dapibus ex. Vestibulum bibendum sapien vitae malesuada cursus. Ut efficitur gravida tortor non porta. Maecenas vulputate metus in magna facilisis, quis condimentum est tristique.")
-        Text("In dignissim urna at consectetur pretium. Sed non odio mauris. Morbi eget egestas nunc. Aliquam erat volutpat. Etiam condimentum tincidunt dapibus. Aliquam sapien quam, mattis quis scelerisque at, tincidunt ut mauris. Vestibulum in rhoncus nulla, eu tempor massa. Vivamus rutrum, tortor sed ornare egestas, mi nulla pharetra velit, eget lobortis tortor purus et ipsum. Sed a facilisis orci. Pellentesque sed ligula risus. In fringilla lectus lorem, et sollicitudin dolor fringilla vel. Nam dictum ac velit et fringilla. Donec maximus cursus nisi scelerisque elementum. Integer convallis elit lectus. Aliquam in euismod urna. Nunc eleifend, lorem at euismod congue, eros nunc dapibus mauris, non hendrerit nunc lorem varius sem.")
-        Text("Suspendisse potenti. Mauris et nibh leo. Donec pellentesque ligula orci, efficitur ultrices lectus faucibus non. Fusce sit amet tincidunt urna. Pellentesque iaculis dignissim neque, a rhoncus tortor vehicula vel. Etiam ultricies felis ac libero fermentum, eget rutrum felis cursus. Morbi ut quam in elit facilisis tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus. Quisque tincidunt sit amet lorem vitae pretium. Fusce elementum rutrum sem, quis convallis nibh bibendum vel. Vestibulum non blandit nulla. Nulla id rutrum justo.")
+/**
+ * Source:
+ * https://medium.com/@acceldia/jetpack-compose-creating-expandable-cards-with-content-9ea1eae09efe
+ *
+ * Expandable card that only supports text
+ */
+@Composable
+fun ExpandableTextCard(headerString: String, descriptionString: String){
+    var isExpanded by remember { mutableStateOf(false) }
 
+    Card (
+        shape = RoundedCornerShape(8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .clickable(
+                onClick = {
+                    isExpanded = !isExpanded
+                }
+            ),
+    ){
+        Column {
+            Text(
+                text = headerString,
+                style = MaterialTheme.typography.headlineLarge,
+                modifier = Modifier.padding(8.dp)
+            )
+
+            if(isExpanded){
+                Text(
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(8.dp),
+                    text = descriptionString
+                )
+            }
+        }
     }
 }

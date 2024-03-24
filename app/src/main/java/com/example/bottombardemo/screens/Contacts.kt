@@ -65,15 +65,20 @@ fun Contacts() {
 
 
         ExpandableTextCard(headerString = ALSName,
-            descriptionString = ALSDesc)
+            descriptionString = ALSDesc,
+            R.drawable.als)
         ExpandableTextCard(headerString = ASName,
-            descriptionString = ASDesc)
+            descriptionString = ASDesc,
+            R.drawable.`as`)
         ExpandableTextCard(headerString = ESSName,
-            descriptionString = ESSDesc)
+            descriptionString = ESSDesc,
+            R.drawable.ess)
         ExpandableTextCard(headerString = EMSName,
-            descriptionString = EMSDesc)
+            descriptionString = EMSDesc,
+            R.drawable.ems)
         ExpandableTextCard(headerString = NHSName,
-            descriptionString = NHSDesc)
+            descriptionString = NHSDesc,
+            R.drawable.nhs)
     }
 
 }
@@ -85,7 +90,7 @@ fun Contacts() {
  * Expandable card that only supports text
  */
 @Composable
-fun ExpandableTextCard(headerString: String, descriptionString: String){
+fun ExpandableTextCard(headerString: String, descriptionString: String, imageId: Int){
     var isExpanded by remember { mutableStateOf(false) }
 
     Card (
@@ -107,11 +112,23 @@ fun ExpandableTextCard(headerString: String, descriptionString: String){
             )
 
             if(isExpanded){
-                Text(
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(8.dp),
-                    text = descriptionString
-                )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Image(
+                        painter = painterResource(id = imageId),
+                        contentDescription = "Your Image Description",
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier
+                            .padding(15.dp)
+                            .size(250.dp)
+                    )
+                    Text(
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(8.dp),
+                        text = descriptionString
+                    )
+                }
             }
         }
     }

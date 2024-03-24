@@ -33,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.bottombardemo.R
+import com.example.bottombardemo.ui.theme.BottomBarDemoTheme
 
 @Composable
 fun Fame() {
@@ -123,7 +124,7 @@ fun FameEntry(personName : String, description : String, id: Int){
                             modifier = Modifier
                                 .height(20.dp)
                                 .wrapContentHeight(align = Alignment.CenterVertically),
-                            textAlign = TextAlign.Center,
+                            textAlign = TextAlign.Center
                         )
                     }
                 }

@@ -25,10 +25,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.bottombardemo.R
@@ -45,7 +47,8 @@ fun Contacts() {
         Text(
             text = "Academic Colleges and Schools Of UVM",
             style = MaterialTheme.typography.headlineLarge,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(8.dp),
+            textAlign = TextAlign.Center
         )
 
         val ALSName = "College of Agriculture And Life Sciences"
@@ -108,7 +111,8 @@ fun ExpandableTextCard(headerString: String, descriptionString: String, imageId:
             Text(
                 text = headerString,
                 style = MaterialTheme.typography.headlineLarge,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
+                textAlign = TextAlign.Center
             )
 
             if(isExpanded){
@@ -126,7 +130,8 @@ fun ExpandableTextCard(headerString: String, descriptionString: String, imageId:
                     Text(
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(8.dp),
-                        text = descriptionString
+                        text = descriptionString,
+                        textAlign = TextAlign.Center
                     )
                 }
             }

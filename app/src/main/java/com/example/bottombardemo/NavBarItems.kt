@@ -15,13 +15,13 @@ object NavBarItems {
         ),
         BarItem(
             title = "Fame",
-            image = R.drawable.face,
+            image = R.drawable.medal,
             route = "fame"
         ),
         BarItem(
-            title = "Contact",
-            image = R.drawable.phone,
-            route = "contacts"
+            title = "Schools",
+            image = R.drawable.grad_cap,
+            route = "Schools"
         ),
         BarItem(
 //            title = "Favorites",

@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.bottombardemo"
+    namespace = "com.group3.project4"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.bottombardemo"
+        applicationId = "com.group3.project4"
         minSdk = 26
         targetSdk = 33
         versionCode = 1

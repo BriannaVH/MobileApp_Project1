@@ -124,7 +124,7 @@ fun ExpandableTextCard(headerString: String, descriptionString: String, imageId:
                     )
                     Text(
                         style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.padding(8.dp),
+                        modifier = Modifier.padding(25.dp),
                         text = descriptionString,
                         textAlign = TextAlign.Center
                     )

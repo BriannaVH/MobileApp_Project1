@@ -1,18 +1,28 @@
 package com.group3.project4.screens
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,10 +32,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.group3.project4.R
 
@@ -58,19 +73,24 @@ fun Schools() {
         val NHSDesc = "In the College of Nursing and Health Sciences, we’re setting the new standard of care. We believe that the best health professionals will not only have deep experience in their fields of study, but also broad exposure across disciplines. At UVM, you’ll have access to top scholars and courses, and you’ll live and study alongside friends with diverse passions and majors whose ideas and interests will expand your world. With this deep and broad education, you’ll launch prepared not only to land a great job, but with the ability to see the world through multiple lenses, an essential 21st century life skill.   CNHS offers undergraduate, graduate, and certificate education in Communication Sciences and Disorders, Exercise Science, Integrative Health, Medical Laboratory Science, Medical Radiation Sciences, Nursing, Occupational Therapy, Physical Activity and Wellness, Physical Therapy, Speech-Language Pathology, and Public Health."
 
 
-        ExpandableTextCard(headerString = ALSName,
+        ExpandableTextCard(
+            headerString = ALSName,
             descriptionString = ALSDesc,
             R.drawable.als)
-        ExpandableTextCard(headerString = ASName,
+        ExpandableTextCard(
+            headerString = ASName,
             descriptionString = ASDesc,
             R.drawable.`as`)
-        ExpandableTextCard(headerString = ESSName,
+        ExpandableTextCard(
+            headerString = ESSName,
             descriptionString = ESSDesc,
             R.drawable.ess)
-        ExpandableTextCard(headerString = EMSName,
+        ExpandableTextCard(
+            headerString = EMSName,
             descriptionString = EMSDesc,
             R.drawable.ems)
-        ExpandableTextCard(headerString = NHSName,
+        ExpandableTextCard(
+            headerString = NHSName,
             descriptionString = NHSDesc,
             R.drawable.nhs)
     }
@@ -86,13 +106,18 @@ fun Schools() {
 @Composable
 fun ExpandableTextCard(headerString: String, descriptionString: String, imageId: Int){
     var isExpanded by remember { mutableStateOf(false) }
+    val rotationState by animateFloatAsState(
+        targetValue = if (isExpanded) 180f else 0f, label = ""
+    )
 
     Card (
         shape = RoundedCornerShape(8.dp),
-
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
+            .border( width = 1.dp,
+                color = Color.Red,
+                shape = RoundedCornerShape(8.dp))
             .clickable(
                 onClick = {
                     isExpanded = !isExpanded
@@ -100,16 +125,44 @@ fun ExpandableTextCard(headerString: String, descriptionString: String, imageId:
             ),
     ){
         Column {
-            Row( modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center) {
-                Text(
-                    text = headerString,
-                    style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(8.dp),
-                    textAlign = TextAlign.Center
-                )
-            }
+            Row(
+                modifier = Modifier.fillMaxWidth().fillMaxHeight().border(width = 1.dp, color = Color.Red),
+                verticalAlignment = Alignment.CenterVertically
 
+            )
+            {
+                Column(
+                   modifier = Modifier
+                       .width(320.dp)
+                ) {
+                    Text(
+                        text = headerString,
+                        fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier
+                            .padding(16.dp),
+                        textAlign = TextAlign.Start,
+                        maxLines = 3,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+
+
+                    IconButton(
+                        modifier = Modifier
+                            .weight(1f)
+                            .alpha(4f)
+                            .rotate(rotationState),
+                        onClick = {
+                            isExpanded = !isExpanded
+                        }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowDropDown,
+
+                            contentDescription = "Drop-Down Arrow"
+                        )
+                    }
+                }
             if(isExpanded){
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -128,6 +181,7 @@ fun ExpandableTextCard(headerString: String, descriptionString: String, imageId:
                         text = descriptionString,
                         textAlign = TextAlign.Center
                     )
+
                 }
             }
         }

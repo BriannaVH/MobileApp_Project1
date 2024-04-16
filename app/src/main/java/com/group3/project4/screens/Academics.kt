@@ -94,7 +94,6 @@ fun Academics(
             keyboardType = KeyboardType.Text
         )
 
-
         Row(
             horizontalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier
@@ -104,12 +103,12 @@ fun Academics(
             Button(onClick = {
                 if (courseCreditHour.isNotEmpty()
                     && courseCreditHour.toDoubleOrNull()!==null
-                    && gradePoints.containsKey(letterGrade)) {
+                    && gradePoints.containsKey(letterGrade.uppercase())) {
                     viewModel.insertCourse(
                         Course(
                             courseName,
                             courseCreditHour.toInt(),
-                            letterGrade
+                            letterGrade.uppercase()
                         )
                     )
                     searching = false
@@ -149,7 +148,7 @@ fun Academics(
                 var sum : Double = 0.0
                 var totalCredits = 0
                 for (i in allCourses){
-                    val points_str = gradePoints[i.letterGrade].toString()
+                    val points_str = gradePoints[i.letterGrade.uppercase()].toString()
                     val points : Double = points_str.toDouble()
                         sum += i.creditHour * points
                     totalCredits += i.creditHour

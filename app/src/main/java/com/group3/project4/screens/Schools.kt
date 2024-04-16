@@ -3,9 +3,7 @@ package com.group3.project4.screens
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -13,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,13 +31,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.group3.project4.R
 
@@ -115,9 +110,6 @@ fun ExpandableTextCard(headerString: String, descriptionString: String, imageId:
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .border( width = 1.dp,
-                color = Color.Red,
-                shape = RoundedCornerShape(8.dp))
             .clickable(
                 onClick = {
                     isExpanded = !isExpanded
@@ -126,7 +118,15 @@ fun ExpandableTextCard(headerString: String, descriptionString: String, imageId:
     ){
         Column {
             Row(
-                modifier = Modifier.fillMaxWidth().fillMaxHeight().border(width = 1.dp, color = Color.Red),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .let {
+                        if (isExpanded) it.background(
+                            color =  MaterialTheme.colorScheme.secondary
+                        )
+                        else it
+                    },
                 verticalAlignment = Alignment.CenterVertically
 
             )
@@ -179,7 +179,7 @@ fun ExpandableTextCard(headerString: String, descriptionString: String, imageId:
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(25.dp),
                         text = descriptionString,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Start
                     )
 
                 }

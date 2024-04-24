@@ -46,101 +46,55 @@ import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.lerp
 import com.group3.project4.R
+import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NewFame() {
-// Display 10 items
     val pagerState = rememberPagerState(pageCount = {
-        10
+        4
     })
     HorizontalPager(
         state = pagerState,
-        modifier = Modifier
+        modifier =  Modifier
             .fillMaxSize()
-            .background(Color.LightGray)
-    ) { pageNumber ->
-        // Our page content
-//        Text(
-//            text = "Page: $pageNumber",
-//        )
-
-        when(pageNumber){
+    ) { page ->
+        when(page){
             0 -> {
-                PageItem(
-                    "Test page 1",
-                    "Test Description",
-                    R.drawable.uvmlogo
-                )
-            }
-            1 -> {
-                Text("ASHJDADSHJASHJDSAHDJ")
+                PageItem("Test Title")
             }
 
             else -> {
-                //do nothing
+
             }
         }
     }
 }
 
-/**
- * Taken from ExpandabeTextCard in Schools.kt
- */
 @Composable
-fun PageItem(headerString: String, descriptionString: String, imageId: Int){
-    Card (
-        shape = RoundedCornerShape(8.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-            .clickable(
-                onClick = {
-                }
-            ),
-    ){
-        Column {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .let {
-                        it.background(
-                            color = MaterialTheme.colorScheme.secondary
-                        )
-                    },
-                verticalAlignment = Alignment.CenterVertically
-
-            )
-            {
-                Column(
-                    modifier = Modifier
-                        .width(320.dp)
-                ) {
-                    Text(
-                        text = headerString,
-                        fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                        fontWeight = FontWeight.Medium,
-                        modifier = Modifier
-                            .padding(16.dp),
-                        textAlign = TextAlign.Start,
-                        maxLines = 3,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-            }
-        }
+fun PageItem(title : String){
+    Card(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Text(
+            text = title,
+            modifier = Modifier.align(CenterHorizontally)
+        )
     }
 }
-
 
 

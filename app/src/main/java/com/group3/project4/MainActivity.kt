@@ -29,6 +29,7 @@ import androidx.navigation.compose.rememberNavController
 import com.group3.project4.screens.Academics
 import com.group3.project4.screens.Fame
 import com.group3.project4.screens.Favorites
+import com.group3.project4.screens.NewFame
 import com.group3.project4.screens.Schools
 import com.group3.project4.screens.Trivial
 import com.group3.project4.ui.theme.BottomBarDemoTheme
@@ -108,7 +109,7 @@ fun NavigationHost(navController: NavHostController, viewModel: MainViewModel) {
                 viewModel = viewModel)
         }
         composable(NavRoutes.Fame.route) {
-            Fame()
+            NewFame()
         }
 
         composable(NavRoutes.Schools.route) {

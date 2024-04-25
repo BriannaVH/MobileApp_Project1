@@ -1,6 +1,7 @@
 package com.group3.project4.screens
 
 import android.graphics.Paint.Align
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,6 +28,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -41,6 +43,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.group3.project4.R
+import kotlinx.coroutines.launch
 
 /**
  * https://medium.com/@2018.itsuki/android-kotlin-jetpack-compose-bottom-thing-bottom-b050019f0948
@@ -51,6 +54,9 @@ fun NewFame() {
     val pagerState = rememberPagerState(pageCount = {
         10
     })
+
+    val coroutineScope = rememberCoroutineScope()
+
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -110,12 +116,21 @@ fun NewFame() {
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ){
+            //Left arrow
             IconButton(
                 modifier = Modifier
                     .weight(1f)
                     .alpha(4f)
                     .rotate(90f),
                 onClick = {
+                    println("Left arrow clicked")
+
+                    if(pagerState.canScrollBackward){
+                        coroutineScope.launch {
+                            // Call scroll to on pagerState
+                            pagerState.scrollToPage(pagerState.currentPage - 1)
+                        }
+                    }
 
                 }) {
                 Icon(
@@ -135,18 +150,24 @@ fun NewFame() {
 
             }
 
+            //Right arrow
             IconButton(
                 modifier = Modifier
                     .weight(1f)
                     .alpha(4f)
                     .rotate(-90f),
                 onClick = {
-
+                    if(pagerState.canScrollForward){
+                        coroutineScope.launch {
+                            // Call scroll to on pagerState
+                            pagerState.scrollToPage(pagerState.currentPage + 1)
+                        }
+                    }
                 }) {
                 Icon(
                     imageVector = Icons.Default.ArrowDropDown,
 
-                    contentDescription = "Drop-Down Arrow"
+                    contentDescription = "Left Arrow"
                 )
             }
         }

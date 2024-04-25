@@ -41,6 +41,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.group3.project4.R
+
+/**
+ * https://medium.com/@2018.itsuki/android-kotlin-jetpack-compose-bottom-thing-bottom-b050019f0948
+ */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NewFame() {
@@ -106,7 +110,45 @@ fun NewFame() {
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ){
+            IconButton(
+                modifier = Modifier
+                    .weight(1f)
+                    .alpha(4f)
+                    .rotate(90f),
+                onClick = {
 
+                }) {
+                Icon(
+                    imageVector = Icons.Default.ArrowDropDown,
+
+                    contentDescription = "Drop-Down Arrow"
+                )
+            }
+
+            Row (
+                modifier = Modifier
+                .background(Color.Green)
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .weight(0.5f),
+            ){
+
+            }
+
+            IconButton(
+                modifier = Modifier
+                    .weight(1f)
+                    .alpha(4f)
+                    .rotate(-90f),
+                onClick = {
+
+                }) {
+                Icon(
+                    imageVector = Icons.Default.ArrowDropDown,
+
+                    contentDescription = "Drop-Down Arrow"
+                )
+            }
         }
 
 

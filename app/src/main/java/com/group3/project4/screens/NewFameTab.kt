@@ -60,12 +60,13 @@ fun PageCard(title : String, description: String, id: Int){
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             Text(
                 text = title,
                 modifier = Modifier.align(CenterHorizontally),
                 fontWeight = FontWeight.Bold
             )
-            Text(description)
+
             Image(
                 painter = painterResource(id = id),
                 contentDescription = "",
@@ -74,6 +75,9 @@ fun PageCard(title : String, description: String, id: Int){
                     .padding(15.dp)
                     .size(250.dp)
             )
+
+            Text(description)
+
         }
     }
 }

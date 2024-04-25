@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.group3.project4.R
 @OptIn(ExperimentalFoundationApi::class)
@@ -63,10 +66,14 @@ fun PageCard(title : String, description: String, id: Int){
 
             Text(
                 text = title,
-                modifier = Modifier.align(CenterHorizontally),
-                fontWeight = FontWeight.Bold
+                fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier
+                    .padding(16.dp),
+                textAlign = TextAlign.Start,
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis
             )
-
             Image(
                 painter = painterResource(id = id),
                 contentDescription = "",

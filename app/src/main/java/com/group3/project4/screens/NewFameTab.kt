@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -27,6 +28,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -110,66 +112,94 @@ fun NewFame() {
         //bottom row
         Row(
             modifier = Modifier
-                .background(Color.Blue)
                 .fillMaxWidth()
                 .height(50.dp),
-            horizontalArrangement = Arrangement.Center,
+            horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ){
-            //Left arrow
-            IconButton(
+            Row(
                 modifier = Modifier
-                    .weight(1f)
-                    .alpha(4f)
-                    .rotate(90f),
-                onClick = {
-                    println("Left arrow clicked")
-
-                    if(pagerState.canScrollBackward){
+                    .height(50.dp)
+                    .width(200.dp)
+                    .clickable {  if(pagerState.canScrollBackward){
                         coroutineScope.launch {
                             // Call scroll to on pagerState
                             pagerState.scrollToPage(pagerState.currentPage - 1)
                         }
-                    }
+                    } },
+            ){
+                //Left arrow
+                IconButton(
+                    modifier = Modifier
+                        .weight(1f)
+                        .alpha(4f)
+                        .rotate(90f),
+                    onClick = {
+                        println("Left arrow clicked")
 
-                }) {
-                Icon(
-                    imageVector = Icons.Default.ArrowDropDown,
+                        if(pagerState.canScrollBackward){
+                            coroutineScope.launch {
+                                // Call scroll to on pagerState
+                                pagerState.scrollToPage(pagerState.currentPage - 1)
+                            }
+                        }
 
-                    contentDescription = "Drop-Down Arrow"
-                )
+                    }) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowDropDown,
+
+                        contentDescription = "Drop-Down Arrow"
+                    )
+                }
             }
+
+
+//            Row (
+//                modifier = Modifier
+//                .background(Color.Green)
+//                    .fillMaxWidth()
+//                    .fillMaxHeight()
+//                    .weight(0.5f),
+//            ){
+//
+//            }
 
             Row (
                 modifier = Modifier
-                .background(Color.Green)
                     .fillMaxWidth()
                     .fillMaxHeight()
-                    .weight(0.5f),
-            ){
-
-            }
-
-            //Right arrow
-            IconButton(
-                modifier = Modifier
-                    .weight(1f)
-                    .alpha(4f)
-                    .rotate(-90f),
-                onClick = {
-                    if(pagerState.canScrollForward){
+                    .weight(0.5f)
+                    .clickable {  if(pagerState.canScrollForward){
                         coroutineScope.launch {
                             // Call scroll to on pagerState
                             pagerState.scrollToPage(pagerState.currentPage + 1)
                         }
-                    }
-                }) {
-                Icon(
-                    imageVector = Icons.Default.ArrowDropDown,
+                    } },
+            ){
+                //Right arrow
+                IconButton(
+                    modifier = Modifier
+                        .weight(1f)
+                        .alpha(4f)
+                        .rotate(-90f),
+                    onClick = {
+                        if(pagerState.canScrollForward){
+                            coroutineScope.launch {
+                                // Call scroll to on pagerState
+                                pagerState.scrollToPage(pagerState.currentPage + 1)
+                            }
+                        }
+                    }) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowDropDown,
 
-                    contentDescription = "Left Arrow"
-                )
+                        contentDescription = "Left Arrow"
+                    )
+                }
             }
+
+
+
         }
 
 

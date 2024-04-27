@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -18,6 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,7 +32,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.group3.project4.R
@@ -48,7 +50,12 @@ fun Fame() {
             .verticalScroll(rememberScrollState())
         )
         {
-            Text("Famous Achievements", fontWeight = FontWeight.Bold)
+            Text(
+                "Famous Achievements",
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(top = 15.dp, bottom = 1.dp)
+            )
+
             FameEntry(
                 "National Ranking",
                 "University of Vermont is ranked 133 out of 439 schools nationally.",
@@ -69,7 +76,11 @@ fun Fame() {
                 "Academic Cup",
                 "UVM won the first Academic Cup in 1996, with 8 wins overall. It is the only school in the American East that has won the Academic Cup seven years in a row (2005-2011).",
                 R.drawable.academiccup)
-            Text("Famous People", fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
+            Text(
+                "Famous People",
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(top = 15.dp, bottom = 1.dp)
+            )
             FameEntry("Jody Williams",
                 "Jody Williams was a Nobel Peace Prize Laureate in 1997. She was awarded it because she worked towards banning and clearing landmines. By 1997, thanks to her strength and organizational talent, the International Campaign to Ban Landmines (ICBL) had 1,000 organizations from 60 countries on its list of members. The Ottawa Convention, which was signed by 120 states and entered into force in 1999, will always be associated with the names of Jody Williams and the ICBL. It banned the use, production, sale and stock-piling of anti-personnel mines. In addition it contained provisions concerning mine clearance and the obligation to provide humanitarian assistance.",
                 R.drawable.jw)
@@ -103,27 +114,36 @@ fun FameEntry(personName : String, description : String, id: Int){
         }
             FlowRow(
                 modifier = Modifier
-                    .padding(top = 10.dp, bottom = 10.dp,) //padding between box and rest of screen
+                    .padding(top = 10.dp, bottom = 10.dp) //padding between box and rest of screen
                     .border(.55.dp, Color.Black, shape = RoundedCornerShape(20))
-                    .padding(top = 5.dp, bottom = 5.dp, start = 5.dp), // padding for inside of the box
+                    .padding(top = 5.dp, bottom = 5.dp, start = 10.dp, end = 10.dp), // padding for inside of the box
                 horizontalArrangement = Arrangement.Center
 
             ) {
-                Column(modifier = Modifier
-                    .width(200.dp)
-                    .align(Alignment.CenterVertically)
-                ){
-                    Text(personName)
+                Column(
+                    modifier = Modifier
+                        .width(200.dp)
+                        .align(Alignment.CenterVertically),
+                    horizontalAlignment = Alignment.CenterHorizontally // This will center all children horizontally
+                ) {
+                    Text(
+                        personName,
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 10.dp), // Ensure it takes up all horizontal space
+                        )
                 }
                 Column(modifier = Modifier
                     .align(Alignment.CenterVertically)
-                    .padding(end = 5.dp)){
+                ) {
                     Button(onClick = { showDialog = true }) {
                         Text(text = "Learn More...",
+                            style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier
                                 .height(20.dp)
                                 .wrapContentHeight(align = Alignment.CenterVertically),
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Center,
                         )
                     }
                 }
@@ -134,21 +154,36 @@ fun FameEntry(personName : String, description : String, id: Int){
 
 @Composable
 fun CustomDialog(onDismissRequest: () -> Unit, individualName : String, description: String, id: Int) {
+    val scrollState = rememberScrollState()
     AlertDialog(
         onDismissRequest = { onDismissRequest() },
-        title = { Text(text = individualName) },
+        title = {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = individualName,
+                style = MaterialTheme.typography.headlineLarge,
+                textAlign = TextAlign.Center,
+                ) },
         text = {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(description)
+
+            Column(modifier = Modifier.verticalScroll(scrollState)) {
                 Image(
                     painter = painterResource(id = id),
                     contentDescription = "Your Image Description",
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
-                        .padding(15.dp)
-                        .size(250.dp)
+                        .padding(10.dp)
+                        .align(Alignment.CenterHorizontally)
+                        .size(220.dp)
+                )
+                Text(
+                    text = description,
+                    style = MaterialTheme.typography.bodyLarge,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight() // Ensures the text fills the horizontal space
                 )
             }
         },

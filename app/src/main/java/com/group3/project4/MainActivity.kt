@@ -104,7 +104,7 @@ fun NavigationHost(navController: NavHostController, viewModel: MainViewModel) {
 
     NavHost(
         navController = navController,
-        startDestination = NavRoutes.Academics.route,
+        startDestination = NavRoutes.Fame.route,
     ) {
         composable(NavRoutes.Trivial.route) {
             Trivial(viewModel)

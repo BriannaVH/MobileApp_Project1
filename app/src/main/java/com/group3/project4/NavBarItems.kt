@@ -14,7 +14,7 @@ object NavBarItems {
             route = "trivial"
         ),
         BarItem(
-            title = "Fame",
+            title = "Home",
             image = R.drawable.medal,
             route = "fame"
         ),

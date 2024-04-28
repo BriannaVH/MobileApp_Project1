@@ -44,13 +44,6 @@ fun Schools() {
     Column (modifier = Modifier
         .wrapContentWidth()
         .verticalScroll(rememberScrollState())) {
-        Text(
-            text = "Academic Colleges and Schools Of UVM",
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(4.dp),
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center
-        )
 
         val ALSName = "College of Agriculture And Life Sciences"
         val ALSDesc = "The College of Agriculture and Life Sciences offers dynamic programs in the life and social sciences, with a focus on nutrition and food science, human and animal health, communication, entrepreneurship, sustainable and resilient communities, and the complex web of food systems. Explore our diverse portfolio of majors: Biochemistry, Community and International Development, Plant and Animal Sciences, Biology, Food Systems, Public Communication, Microbiology and Molecular Genetics to name a few.  Our rich array of internships and research experiences empowers students to become doers. We challenge students to push the boundaries of creativity and innovation, imparting the knowledge, skills, and values to become the next generation of informed citizens, thinkers and leaders. Our sciences are grounded in humanity for students who want to make a difference in the world."
@@ -141,7 +134,7 @@ fun ExpandableTextCard(headerString: String, descriptionString: String, imageId:
                         fontWeight = FontWeight.Medium,
                         modifier = Modifier
                             .padding(16.dp),
-                        textAlign = TextAlign.Start,
+                        textAlign = TextAlign.Center,
                         maxLines = 3,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -179,7 +172,7 @@ fun ExpandableTextCard(headerString: String, descriptionString: String, imageId:
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(25.dp),
                         text = descriptionString,
-                        textAlign = TextAlign.Start
+                        textAlign = TextAlign.Center
                     )
 
                 }

@@ -242,7 +242,7 @@ fun PageCards(title: String, description: String, id: Int) {
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
-            .size(450.dp)
+            .size(475.dp)
             .fillMaxWidth()
             .padding(15.dp)
     ) {
@@ -283,7 +283,7 @@ fun PageCards(title: String, description: String, id: Int) {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun History() {
-    val pagerState = rememberPagerState(pageCount = {10})
+    var pagerState = rememberPagerState(pageCount = {5}, initialPage = 2)
     val coroutineScope = rememberCoroutineScope()
 
     Column() {
@@ -294,86 +294,42 @@ fun History() {
             modifier = Modifier
                 .wrapContentHeight()
                 .fillMaxWidth()
-        ) { page ->
+        ) {
+            page ->
             when (page) {
                 0 -> {
-                    val ALSDesc = "The College of Agriculture and Life Sciences offers dynamic programs..."
                     PageCards(
-                        title = "Test Title",
-                        description = ALSDesc,
-                        id = R.drawable.uvmlogo
+                        title = "1791",
+                        description = "Chartered the same year that Vermont became the 14th state.",
+                        id = R.drawable.state
                     )
                 }
                 1 -> {
-                    val ALSDesc = "The College of Agriculture and Life Sciences offers dynamic programs..."
                     PageCards(
-                        title = "Test Title",
-                        description = ALSDesc,
-                        id = R.drawable.uvmlogo
+                        title = "1824",
+                        description = "The citizens of Burlington helped fund the university's first building, and, when fire destroyed it in 1824, also paid for its replacement, the Old Mill building.",
+                        id = R.drawable.mill
                     )
                 }
                 2 -> {
-                    val ALSDesc = "The College of Agriculture and Life Sciences offers dynamic programs..."
                     PageCards(
-                        title = "Test Title",
-                        description = ALSDesc,
-                        id = R.drawable.uvmlogo
+                        title = "1862",
+                        description = "Although it began as a private university, UVM attained quasi-public status with the passage of the Morrill Land-Grant College Act in 1862 and the addition of the State Agricultural College.",
+                        id = R.drawable.sac
                     )
                 }
                 3 -> {
-                    val ALSDesc = "The College of Agriculture and Life Sciences offers dynamic programs..."
                     PageCards(
-                        title = "Test Title",
-                        description = ALSDesc,
-                        id = R.drawable.uvmlogo
+                        title = "1871",
+                        description = "The university was an early advocate of both women's and African-Americans' participation in higher education.",
+                        id = R.drawable.edu
                     )
                 }
                 4 -> {
-                    val ALSDesc = "The College of Agriculture and Life Sciences offers dynamic programs..."
                     PageCards(
-                        title = "Test Title",
-                        description = ALSDesc,
-                        id = R.drawable.uvmlogo
-                    )
-                }
-                5 -> {
-                    val ALSDesc = "The College of Agriculture and Life Sciences offers dynamic programs..."
-                    PageCards(
-                        title = "Test Title",
-                        description = ALSDesc,
-                        id = R.drawable.uvmlogo
-                    )
-                }
-                6 -> {
-                    val ALSDesc = "The College of Agriculture and Life Sciences offers dynamic programs..."
-                    PageCards(
-                        title = "Test Title",
-                        description = ALSDesc,
-                        id = R.drawable.uvmlogo
-                    )
-                }
-                7 -> {
-                    val ALSDesc = "The College of Agriculture and Life Sciences offers dynamic programs..."
-                    PageCards(
-                        title = "Test Title",
-                        description = ALSDesc,
-                        id = R.drawable.uvmlogo
-                    )
-                }
-                8 -> {
-                    val ALSDesc = "The College of Agriculture and Life Sciences offers dynamic programs..."
-                    PageCards(
-                        title = "Test Title",
-                        description = ALSDesc,
-                        id = R.drawable.uvmlogo
-                    )
-                }
-                9 -> {
-                    val ALSDesc = "The College of Agriculture and Life Sciences offers dynamic programs..."
-                    PageCards(
-                        title = "Test Title",
-                        description = ALSDesc,
-                        id = R.drawable.uvmlogo
+                        title = "1877",
+                        description = "In 1877, Phi Beta Kappa initiated the first African-American into the society.",
+                        id = R.drawable.pbk
                     )
                 }
                 else -> {

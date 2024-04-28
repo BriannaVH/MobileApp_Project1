@@ -28,7 +28,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.group3.project4.screens.Academics
 import com.group3.project4.screens.Fame
-import com.group3.project4.screens.Favorites
+import com.group3.project4.screens.Resources
 import com.group3.project4.screens.Schools
 import com.group3.project4.screens.Trivial
 import com.group3.project4.ui.theme.BottomBarDemoTheme
@@ -96,6 +96,7 @@ fun MainScreen(viewModel: MainViewModel) {
             } },
         bottomBar = { BottomNavigationBar(navController = navController)}
     )
+
 }
 
 @Composable
@@ -124,8 +125,8 @@ fun NavigationHost(navController: NavHostController, viewModel: MainViewModel) {
             Schools()
         }
 
-        composable(NavRoutes.Favorites.route) {
-            Favorites()
+        composable(NavRoutes.Resources.route) {
+            Resources()
         }
     }
 }

@@ -25,9 +25,9 @@ object NavBarItems {
         ),
         BarItem(
 //            title = "Favorites",
-            title = "Favorites",
-            image = R.drawable.heart_solid,
-            route = "favorites"
+            title = "Resources",
+            image = R.drawable.tools,
+            route = "resources"
         )
     )
 }

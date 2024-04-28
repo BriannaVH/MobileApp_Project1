@@ -29,7 +29,6 @@ import androidx.navigation.compose.rememberNavController
 import com.group3.project4.screens.Academics
 import com.group3.project4.screens.Fame
 import com.group3.project4.screens.Favorites
-import com.group3.project4.screens.NewFame
 import com.group3.project4.screens.Schools
 import com.group3.project4.screens.Trivial
 import com.group3.project4.ui.theme.BottomBarDemoTheme
@@ -81,7 +80,16 @@ fun MainScreen(viewModel: MainViewModel) {
     val navController = rememberNavController()
 
     Scaffold(
-        topBar = { TopAppBar(title = {Text("UVM Student Portal", textAlign = TextAlign.Center)})  },
+        topBar = {  CenterAlignedTopAppBar(
+            title = {
+                Text(
+                    "UVM Student Portal",
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.headlineMedium
+                )
+            }
+        )
+                 },
         content = { padding ->
             Column(Modifier.padding(padding)) {
                 NavigationHost(navController = navController, viewModel = viewModel)
@@ -109,7 +117,7 @@ fun NavigationHost(navController: NavHostController, viewModel: MainViewModel) {
                 viewModel = viewModel)
         }
         composable(NavRoutes.Fame.route) {
-            NewFame()
+            Fame()
         }
 
         composable(NavRoutes.Schools.route) {

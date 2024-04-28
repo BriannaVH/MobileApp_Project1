@@ -21,17 +21,12 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
-import androidx.compose.ui.unit.sp
 import com.group3.project4.MainViewModel
 import com.group3.project4.TrivialQuestion
 
@@ -72,7 +67,7 @@ fun Trivial(viewModel: MainViewModel) {
                 }, modifier = Modifier.align(CenterHorizontally),
                 enabled = buttonEnabled
             ) {
-                Text(text = "Load Questions")
+                Text(text = "Load Questions",  style = MaterialTheme.typography.titleLarge,)
             }
 
             if (!buttonEnabled) {
@@ -152,7 +147,7 @@ fun Trivial(viewModel: MainViewModel) {
 
                     }, modifier = Modifier.align(CenterHorizontally)
                 ) {
-                    Text(text = "Go")
+                    Text(text = "Go",  style = MaterialTheme.typography.titleMedium)
                 }
 
                     println("Re-rendering grade button")
@@ -164,14 +159,17 @@ fun Trivial(viewModel: MainViewModel) {
                         }, modifier = Modifier.align(CenterHorizontally),
                         enabled = gradeButtonEnabled.value
                     ) {
-                        Text(text = "Grade")
+                        Text(text = "Grade",  style = MaterialTheme.typography.titleMedium)
                     }
 
                 //If the showGrade flag is enabled...
                 if(showGrade){
                     Text(
                         text = " You scored: ${overallGrade} out of $numQuestions questions",
-                        modifier = Modifier.align(CenterHorizontally)
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier
+                            .align(CenterHorizontally)
+                            .padding(top = 5.dp)
                     ) //Display the overallGrade value
                 }
 
@@ -228,7 +226,6 @@ fun Trivial(viewModel: MainViewModel) {
  */
 @Composable
 fun Question(QuestionStr : String, answers : List<String>, id: Int, questionsAnswered: Array<String>, numQuestionsAnswered: Array<Int>, numQuestions: Int, correctAnswer: String, showAnswers: Boolean) {
-    println("nqr " + id)
 
     //List of options. This represents the answers that will be given by the user
 //    val options = listOf("A", "B", "C", "D")
@@ -244,13 +241,8 @@ fun Question(QuestionStr : String, answers : List<String>, id: Int, questionsAns
         Column {
             Text(
                 text = QuestionStr,
-                modifier = Modifier
-                    .align(Alignment.Start),
-                style = TextStyle(
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.W700,
-                    letterSpacing = 0.05.em
-                )
+                style  = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(top = 30.dp)
             ) //The text entry for the question
 
             //Add a radio button for each option
@@ -348,9 +340,4 @@ fun gradeTrivial(questionsAnswered: Array<String>, questions: List<TrivialQuesti
     }
 
     return numberCorrect
-}
-
-fun initQuestions(viewModel: MainViewModel){
-
-
 }

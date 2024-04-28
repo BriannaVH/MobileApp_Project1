@@ -166,7 +166,10 @@ fun Trivial(viewModel: MainViewModel) {
                 if(showGrade){
                     Text(
                         text = " You scored: ${overallGrade} out of $numQuestions questions",
-                        modifier = Modifier.align(CenterHorizontally)
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier
+                            .align(CenterHorizontally)
+                            .padding(top = 5.dp)
                     ) //Display the overallGrade value
                 }
 
@@ -238,7 +241,8 @@ fun Question(QuestionStr : String, answers : List<String>, id: Int, questionsAns
         Column {
             Text(
                 text = QuestionStr,
-                style  = MaterialTheme.typography.titleLarge
+                style  = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(top = 30.dp)
             ) //The text entry for the question
 
             //Add a radio button for each option

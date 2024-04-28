@@ -61,7 +61,6 @@ fun NewFame() {
         //top row
         Row(
             modifier = Modifier
-//                .background(Color.Blue)
                 .fillMaxWidth()
                 .height(10.dp),
             horizontalArrangement = Arrangement.Center,
@@ -167,12 +166,7 @@ fun NewFame() {
                 )
             }
         }
-
-
     }
-
-
-
 }
 
 @Composable

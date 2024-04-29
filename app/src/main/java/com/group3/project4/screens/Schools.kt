@@ -1,5 +1,6 @@
 package com.group3.project4.screens
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -156,7 +157,9 @@ fun ExpandableTextCard(headerString: String, descriptionString: String, imageId:
                         )
                     }
                 }
-            if(isExpanded){
+
+
+            AnimatedVisibility(isExpanded){
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {

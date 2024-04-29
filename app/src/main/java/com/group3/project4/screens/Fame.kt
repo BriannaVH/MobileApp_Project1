@@ -1,5 +1,6 @@
 package com.group3.project4.screens
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -150,7 +151,16 @@ fun FameEntry(personName : String, description : String, id: Int){
 
         var showDialog by remember { mutableStateOf(false) }
         if (showDialog) {
-            CustomDialog(onDismissRequest = { showDialog = false}, personName, description, id)
+            // I'm pretty sure this line is what we need to implement the crossfade but
+            // I'm not quite sure how to fix it so that the parameters are accepted
+            // I think that I remember something similar coming up before where we turned
+            // mutable variables into arrays in order to change them but I'm not 100% sure
+            // https://stackoverflow.com/questions/71006883/is-jetpack-compose-crossfade-just-a-subset-functionality-of-animatecontent
+            // https://foso.github.io/Jetpack-Compose-Playground/animation/crossfade/
+
+//            Crossfade(targetState = showDialog, label = "") { showDialog ->
+                CustomDialog(onDismissRequest = { showDialog = false }, personName, description, id)
+//            }
         }
             FlowRow(
                 modifier = Modifier

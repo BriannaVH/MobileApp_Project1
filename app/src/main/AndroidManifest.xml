@@ -6,17 +6,17 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/uvmcat"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/uvmcat"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Project4"
+        android:theme="@style/Theme.UVMApp"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name="com.universityofvermont.UVMApp.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Project4">
+            android:theme="@style/Theme.UVMApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

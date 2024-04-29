@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.group3.project4"
+    namespace = "com.universityofvermont.UVMApp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.group3.project4"
+        applicationId = "com.universityofvermont.UVMApp"
         minSdk = 26
         targetSdk = 33
         versionCode = 1

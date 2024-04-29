@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "project4"
+rootProject.name = "UVMApp"
 include(":app")

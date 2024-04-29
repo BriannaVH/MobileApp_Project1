@@ -1,6 +1,7 @@
 package com.group3.project4.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -194,6 +195,7 @@ fun campusResourceCard(
         //Styling for text with link
         addStyle(
             style = SpanStyle(
+                color = Color.White,
                 fontSize = MaterialTheme.typography.titleLarge.fontSize,
                 fontWeight = MaterialTheme.typography.titleLarge.fontWeight,
                 fontFamily = MaterialTheme.typography.titleLarge.fontFamily,
@@ -220,25 +222,29 @@ fun campusResourceCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
+            .border(.55.dp, Color.Black, shape = RoundedCornerShape(8))
     ){
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(),
+                    .fillMaxHeight()
+                    .background(color = MaterialTheme.colorScheme.primary),
                 verticalAlignment = Alignment.CenterVertically
             )
             {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(color = MaterialTheme.colorScheme.primary)
                 ) {
                     // 🔥 Clickable text returns position of text that is clicked in onClick callback
                     ClickableText(
                         modifier = Modifier
                             .padding(16.dp)
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .align(Alignment.CenterHorizontally),
                         text = (annotatedLinkString),
+                        style = TextStyle(
+                            textAlign = TextAlign.Center),
                         onClick = {
                             annotatedLinkString
                                 .getStringAnnotations("URL", it, it)
@@ -253,7 +259,8 @@ fun campusResourceCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+
         )
         {
             Column(
@@ -261,12 +268,13 @@ fun campusResourceCard(
                     .fillMaxWidth(),
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
+                HorizontalDivider()
                 Text(
                     color = Color.Black,
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(16.dp),
                     text = descriptionString,
-                    textAlign = TextAlign.Start
+                    textAlign = TextAlign.Center
                 )
 
             }

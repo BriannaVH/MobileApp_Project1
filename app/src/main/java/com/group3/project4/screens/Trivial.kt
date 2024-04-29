@@ -47,10 +47,11 @@ fun Trivial(viewModel: MainViewModel) {
     var questionsAnswered by remember { mutableStateOf(Array(10) { ""})}
     var numQuestionsAnswered by remember { mutableStateOf(Array(1) {0}) }
     var displayQuestions by remember { mutableStateOf(false) }
-    var numQuestions by remember { mutableStateOf(10) }
+    var numQuestions by remember { mutableStateOf(0) }
     var updateQuestionsList by remember { mutableStateOf(false) }
     var questions : List<TrivialQuestion>? = viewModel.allQuestions.observeAsState().value
     var showAnswers by remember { mutableStateOf(false)}
+    var input by remember { mutableStateOf("") } //The number of questions
 
 
 
@@ -76,7 +77,7 @@ fun Trivial(viewModel: MainViewModel) {
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
-                    var input by remember { mutableStateOf("") } //The number of questions
+
                     CustomTextField(
                         title = "Number of Questions",
                         textState = input,
@@ -90,6 +91,7 @@ fun Trivial(viewModel: MainViewModel) {
                                     }
                                 }catch (exception: Exception){
                                     //Invalid input. Don't do anything.
+                                    numQuestions = 0
                                 }
                             }
 
@@ -101,66 +103,96 @@ fun Trivial(viewModel: MainViewModel) {
                 }
 
 
+                Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
+                    Column {
+                        Button(
+                            onClick = {
+                                showAnswers = false
+                                gradeButtonEnabled.value = false
+                                showGrade = false
+                                shouldShuffleAnswers.value = false
+                                overallGrade = 0
+                                questionsAnswered = Array(10) { "" }
+                                answers.clear()
+                                numQuestionsAnswered[0] = 0
+                                println("${questionsSelected.size} + ${questionsSelected}")
+                                if (questionsSelected != null) {
+                                    println("size before dropping " + questionsSelected.size)
 
-                Button(
-                    onClick = {
-                            showAnswers = false
-                            gradeButtonEnabled.value = false
-                            showGrade = false
-                            shouldShuffleAnswers.value = false
-                            overallGrade = 0
-                            questionsAnswered = Array(10) { ""}
-                            answers.clear()
-                            numQuestionsAnswered[0] = 0
-                            println("${questionsSelected.size} + ${questionsSelected}")
-                            if(questionsSelected != null){
-                                println("size before dropping " + questionsSelected.size)
+                                    var numToDrop = 10 - numQuestions
 
-                                var numToDrop = 10 - numQuestions
-
-                                if (questions != null) {
-                                    questions = questions!!.shuffled()
-                                    questions = questions!!.drop(numToDrop)
-                                    println("size of questions ${questions!!.size}")
-                                    questionsSelected = questions!!.toMutableList()
-                                    println("AFTER ${questionsSelected.size} + ${questionsSelected}")
+                                    if (questions != null) {
+                                        questions = questions!!.shuffled()
+                                        questions = questions!!.drop(numToDrop)
+                                        println("size of questions ${questions!!.size}")
+                                        questionsSelected = questions!!.toMutableList()
+                                        println("AFTER ${questionsSelected.size} + ${questionsSelected}")
+                                    }
                                 }
+
+
+                                if (questionsSelected != null) {
+                                    println("size of dropped array: " + questionsSelected.size)
+                                    displayQuestions = true
+                                    updateQuestionsList = true
+
+                                    for (q in questionsSelected) {
+                                        println("q: $q")
+                                        var answer = listOf(
+                                            q.correctAnswer,
+                                            q.incorrectAnswer1,
+                                            q.incorrectAnswer2,
+                                            q.incorrectAnswer3
+                                        ).shuffled()
+                                        answers[questionsSelected.indexOf(q)] = answer
+                                    }
+                                }
+
                             }
-
-
-                        if (questionsSelected != null) {
-                            println("size of dropped array: " + questionsSelected.size)
-                            displayQuestions = true
-                            updateQuestionsList = true
-
-                            for(q in questionsSelected) {
-                                println("q: $q")
-                                var answer = listOf(
-                                    q.correctAnswer,
-                                    q.incorrectAnswer1,
-                                    q.incorrectAnswer2,
-                                    q.incorrectAnswer3
-                                ).shuffled()
-                                answers[questionsSelected.indexOf(q)] = answer
-                            }
+                        ) {
+                            Text(text = "Go", style = MaterialTheme.typography.titleMedium)
                         }
+                    }
 
-                    }, modifier = Modifier.align(CenterHorizontally)
-                ) {
-                    Text(text = "Go",  style = MaterialTheme.typography.titleMedium)
-                }
 
                     println("Re-rendering grade button")
-                    Button(
-                        onClick = {
-                            showAnswers = true
-                            overallGrade = gradeTrivial(questionsAnswered, questionsSelected)
-                            showGrade = true
-                        }, modifier = Modifier.align(CenterHorizontally),
-                        enabled = gradeButtonEnabled.value
-                    ) {
-                        Text(text = "Grade",  style = MaterialTheme.typography.titleMedium)
+                    Column (modifier = Modifier.padding(start = 5.dp, end = 5.dp)) {
+                        Button(
+                            onClick = {
+                                showAnswers = true
+                                overallGrade = gradeTrivial(questionsAnswered, questionsSelected)
+                                showGrade = true
+                            },
+                            enabled = gradeButtonEnabled.value
+                        ) {
+                            Text(text = "Grade", style = MaterialTheme.typography.titleMedium)
+                        }
                     }
+                    println("Re-rendering grade button")
+                    Column  {
+                        Button(
+                            onClick = {
+                                input = ""
+                                showAnswers = false
+                                gradeButtonEnabled.value = false
+                                showGrade = false
+                                shouldShuffleAnswers.value = false
+                                overallGrade = 0
+                                questionsAnswered = Array(10) { "" }
+                                answers.clear()
+                                numQuestionsAnswered[0] = 0
+                            },
+                            enabled = true
+                        ) {
+                            Text(text = "Reset", style = MaterialTheme.typography.titleMedium)
+                        }
+                    }
+                }
+
+
+
+
+
 
                 //If the showGrade flag is enabled...
                 if(showGrade){

@@ -349,7 +349,7 @@ fun Question(QuestionStr : String, answers : List<String>, id: Int, questionsAns
                 Text(
                     text = "Correct Answer: " + correctAnswer,
                     modifier = Modifier.align(CenterHorizontally),
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.primary,
                 )
             }
 

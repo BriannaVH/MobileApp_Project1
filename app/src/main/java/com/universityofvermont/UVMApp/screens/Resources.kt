@@ -17,7 +17,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -41,11 +40,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Resources() {
 
-    val resources = arrayOf<Array<String>>(
+    val resources = arrayOf(
         arrayOf(
             "UNDERGRADUATE WRITING CENTER",
             "Academic support is only a click or call away! From reviewing assignments, to getting organized and citing sources, peer writing tutors are here to assist in the writing process.",
@@ -150,7 +148,6 @@ fun Resources() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Search(
     title: String,

@@ -27,7 +27,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.universityofvermont.UVMApp.screens.Academics
-import com.universityofvermont.UVMApp.screens.Fame
+import com.universityofvermont.UVMApp.screens.Home
 import com.universityofvermont.UVMApp.screens.Resources
 import com.universityofvermont.UVMApp.screens.Schools
 import com.universityofvermont.UVMApp.screens.Trivial
@@ -118,7 +118,7 @@ fun NavigationHost(navController: NavHostController, viewModel: MainViewModel) {
                 viewModel = viewModel)
         }
         composable(NavRoutes.Fame.route) {
-            Fame()
+            Home()
         }
 
         composable(NavRoutes.Schools.route) {

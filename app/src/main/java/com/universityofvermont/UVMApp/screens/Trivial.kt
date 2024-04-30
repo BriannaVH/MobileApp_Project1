@@ -115,29 +115,23 @@ fun Trivial(viewModel: MainViewModel) {
                                 questionsAnswered = Array(10) { "" }
                                 answers.clear()
                                 numQuestionsAnswered[0] = 0
-                                println("${questionsSelected.size} + ${questionsSelected}")
                                 if (questionsSelected != null) {
-                                    println("size before dropping " + questionsSelected.size)
 
                                     var numToDrop = 10 - numQuestions
 
                                     if (questions != null) {
                                         questions = questions!!.shuffled()
                                         questions = questions!!.drop(numToDrop)
-                                        println("size of questions ${questions!!.size}")
                                         questionsSelected = questions!!.toMutableList()
-                                        println("AFTER ${questionsSelected.size} + ${questionsSelected}")
                                     }
                                 }
 
 
                                 if (questionsSelected != null) {
-                                    println("size of dropped array: " + questionsSelected.size)
                                     displayQuestions = true
                                     updateQuestionsList = true
 
                                     for (q in questionsSelected) {
-                                        println("q: $q")
                                         var answer = listOf(
                                             q.correctAnswer,
                                             q.incorrectAnswer1,
@@ -155,7 +149,6 @@ fun Trivial(viewModel: MainViewModel) {
                     }
 
 
-                    println("Re-rendering grade button")
                     Column (modifier = Modifier.padding(start = 5.dp, end = 5.dp)) {
                         Button(
                             onClick = {
@@ -168,7 +161,6 @@ fun Trivial(viewModel: MainViewModel) {
                             Text(text = "Grade", style = MaterialTheme.typography.titleMedium)
                         }
                     }
-                    println("Re-rendering grade button")
                     Column  {
                         Button(
                             onClick = {
@@ -197,7 +189,7 @@ fun Trivial(viewModel: MainViewModel) {
                 //If the showGrade flag is enabled...
                 if(showGrade){
                     Text(
-                        text = " You scored: ${overallGrade} out of $numQuestions questions",
+                        text = " You scored: $overallGrade out of $numQuestions questions",
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier
                             .align(CenterHorizontally)
@@ -205,14 +197,11 @@ fun Trivial(viewModel: MainViewModel) {
                     ) //Display the overallGrade value
                 }
 
-                println("answers: $answers")
                 if(displayQuestions){
-
                     if(!updateQuestionsList){
                         return
                     }
 
-//
                     /**
                      * https://stackoverflow.com/questions/68164883/how-do-i-create-a-jetpack-compose-column-where-a-middle-child-is-scrollable-but
                      * ^ Making the column scrollable
@@ -225,10 +214,7 @@ fun Trivial(viewModel: MainViewModel) {
                         // change this so that if checks if the questions have been specified yet
                         // if not, do this, otherwise check what we have already
                         if (questionsSelected != null) {
-                            println("questions are shuffled and displayed")
-//                            Question(q.question, answers[], questionsSelected.indexOf(q), questionsAnswered, numQuestionsAnswered, numQuestions, q.correctAnswer, showAnswers)
                             // loop through each question and make a question for it
-
                             for(i in answers){
                             Question(questionsSelected[i.key].question, i.value, i.key, questionsAnswered, numQuestionsAnswered, numQuestions, questionsSelected[i.key].correctAnswer, showAnswers)
                             }
@@ -286,22 +272,13 @@ fun Question(QuestionStr : String, answers : List<String>, id: Int, questionsAns
                             selected = (text == selectedOption),
                             onClick = {
                                 onOptionSelected(text)
-                                println("onclick triggered")
-                                println("new option selected " + text)
-                                println("previously: " + questionsAnswered[id])
                                 if (questionsAnswered[id] == "") {
                                     questionsAnswered[id] = text
                                     numQuestionsAnswered[0] += 1
-                                    println("one step closer to being graded " + numQuestionsAnswered[0])
-                                    // change to be the actual number of questions later on
-                                    println("check num answered " + numQuestionsAnswered[0])
-                                    println("check num needed " + numQuestions)
                                     if (numQuestionsAnswered[0] === numQuestions) {
-                                        println("all questions answered")
                                         gradeButtonEnabled.value = true
                                     }
                                 } else {
-                                    println("this was already answered before")
                                     questionsAnswered[id] = text
                                 }
                             }
@@ -314,23 +291,14 @@ fun Question(QuestionStr : String, answers : List<String>, id: Int, questionsAns
                         selected = (text == selectedOption),
                         modifier = Modifier.padding(8f.dp),
                         onClick = {
-                            println("onclick triggered")
-                            println("new option selected " + text)
-                            println("previously: " + questionsAnswered[id])
                             if (questionsAnswered[id] == ""){
                                 questionsAnswered[id] = text
                                 numQuestionsAnswered[0] += 1
-                                println("one step closer to being graded " + numQuestionsAnswered[0])
-                                // change to be the actual number of questions later on
-                                println("check num answered " + numQuestionsAnswered[0])
-                                println("check num needed " + numQuestions)
                                 if (numQuestionsAnswered[0] === numQuestions) {
-                                    println("all questions answered")
                                     gradeButtonEnabled.value = true
                                 }
                             }
                             else {
-                                println("this was already answered before")
                                 questionsAnswered[id] = text
                             }
                             onOptionSelected(text)
@@ -358,17 +326,13 @@ fun Question(QuestionStr : String, answers : List<String>, id: Int, questionsAns
 }
 
 fun gradeTrivial(questionsAnswered: Array<String>, questions: List<TrivialQuestion>?) : Int{
-    println("grade trivial")
     var numberCorrect = 0
     if (questions != null) {
         for (veggie in questions){
-            println("they answered: " + questionsAnswered[questions.indexOf(veggie)])
-            println("correct answer: " + veggie.correctAnswer)
             if (questionsAnswered[questions.indexOf(veggie)] == veggie.correctAnswer){
                 numberCorrect += 1
             }
         }
-        println("they got " + numberCorrect + " out of " + questions.size + " correct")
     }
 
     return numberCorrect

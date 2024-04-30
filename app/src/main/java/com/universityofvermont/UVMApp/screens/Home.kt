@@ -53,7 +53,7 @@ import com.universityofvermont.UVMApp.R
 import kotlinx.coroutines.launch
 
 @Composable
-fun Fame() {
+fun Home() {
 
     Column(
         modifier = Modifier
@@ -154,13 +154,6 @@ fun FameEntry(personName : String, description : String, id: Int){
         var changeDialog = { showDialog = false }
 
         if (showDialog) {
-            // I'm pretty sure this line is what we need to implement the crossfade but
-            // I'm not quite sure how to fix it so that the parameters are accepted
-            // I think that I remember something similar coming up before where we turned
-            // mutable variables into arrays in order to change them but I'm not 100% sure
-            // https://stackoverflow.com/questions/71006883/is-jetpack-compose-crossfade-just-a-subset-functionality-of-animatecontent
-            // https://foso.github.io/Jetpack-Compose-Playground/animation/crossfade/
-
             Crossfade(targetState = showDialog, label = "", animationSpec = tween(10000)) { shown ->
                 print(shown)
                 CustomDialog(onDismissRequest = changeDialog , personName, description, id)
